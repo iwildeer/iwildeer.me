@@ -1,77 +1,85 @@
-# React + TypeScript + Vite
+# Iwildeer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal website of Iwildeer. Design and content structure inspired by [antfu.me](https://antfu.me), built with React + Vite, homepage content driven by Markdown.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- [React 19](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- [Vite 8](https://vite.dev/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
+- [react-markdown](https://github.com/remarkjs/react-markdown) — Markdown content rendering
+- [Iconify](https://iconify.design/) — Remix Icon set
+- [Inter](https://rsms.me/inter/) + [LXGW WenKai](https://github.com/lxgw/LxgwWenKai) — Latin / CJK fonts
 
-## React Compiler
+## Getting Started
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+pnpm install
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Other commands:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+pnpm build    # Type check + production build
+pnpm preview  # Preview production build
+pnpm lint     # ESLint
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project Structure
 
 ```
+src/
+├── content/
+│   ├── home.md       # Homepage Markdown content
+│   └── links.ts      # Magic Link & social link config
+├── components/
+│   ├── NavBar.tsx
+│   ├── MarkdownContent.tsx
+│   ├── MagicLink.tsx
+│   ├── SocialLinks.tsx
+│   ├── Icon.tsx
+│   └── Footer.tsx
+├── hooks/
+│   └── useDark.ts    # Dark mode with View Transition
+├── icons/
+│   └── index.ts      # Iconify icon registry
+├── App.tsx
+└── index.css
+```
+
+## Editing Content
+
+### Homepage copy
+
+Edit `src/content/home.md`. YAML frontmatter is supported:
+
+```markdown
+---
+title: Iwildeer
+description: Iwildeer's personal website
+---
+
+Hey! I'm Iwildeer...
+```
+
+Inline tags like `{React}` and `{Vite}` render as Magic Link pills. Link mappings live in `src/content/links.ts`.
+
+### Social links & icons
+
+Add entries to the `socialLinks` array in `src/content/links.ts`. Icons use Iconify names (e.g. `ri:github-fill`). Register new icons in `src/icons/index.ts` first.
+
+## Deployment
+
+Pushing to the `master` branch triggers a GitHub Actions build and deploy. See [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
+
+## Acknowledgments
+
+Site design and implementation reference [Anthony Fu](https://antfu.me)'s [antfu.me](https://github.com/antfu/antfu.me) project.
+
+## License
+
+[MIT](./LICENSE)
+
+- Copyright (c) 2020-2021 Anthony Fu
+- Copyright (c) 2026 Iwildeer

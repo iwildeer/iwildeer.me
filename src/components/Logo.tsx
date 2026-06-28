@@ -1,0 +1,61 @@
+import { useId } from 'react'
+
+const STROKE = {
+  strokeWidth: 2.5,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+}
+
+/**
+ * Orchid & deer — side profile, stem as "i", lush antler-orchid bouquet.
+ * 芝兰生于深林 — Iwildeer
+ */
+export function Logo() {
+  const maskId = useId().replace(/:/g, '')
+
+  return (
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <title>Iwildeer</title>
+      <mask
+        id={maskId}
+        maskUnits="userSpaceOnUse"
+        x="18"
+        y="4"
+        width="64"
+        height="94"
+        style={{ maskType: 'alpha' }}
+      >
+        <path
+          d="M54 6C42 10 32 20 30 32C28 44 30 56 36 64C32 72 30 80 32 88C34 94 42 98 54 98C66 98 74 94 76 88C78 80 76 72 72 64C78 56 80 44 78 32C76 20 66 10 54 6Z"
+          fill="white"
+        />
+      </mask>
+      <g mask={`url(#${maskId})`}>
+        {/* deer profile + i stem */}
+        <path
+          className="logo-path"
+          d="M36 12C42 20 48 26 52 36C60 18 66 14 64 22C58 28 54 32 52 36C42 38 36 42 38 46C42 44 48 40 52 36L52 90"
+          {...STROKE}
+        />
+        {/* i dot — orchid bud */}
+        <path
+          className="logo-path logo-path-alt"
+          d="M52 30 m -2 0 a 2 2 0 1 0 4 0 a 2 2 0 1 0 -4 0"
+          {...STROKE}
+        />
+        {/* lush antler-orchid bouquet */}
+        <path
+          className="logo-path logo-path-alt"
+          d="M52 34C44 16 38 12 34 18M52 34C58 14 66 10 70 16M46 26C36 8 28 12 26 20M56 28C66 6 74 8 76 16M50 32C46 20 44 14 48 10"
+          {...STROKE}
+        />
+        {/* orchid leaf */}
+        <path
+          className="logo-path logo-path-alt2"
+          d="M52 54C40 50 28 42 24 36C22 32 26 32 30 36C36 42 44 48 52 54"
+          {...STROKE}
+        />
+      </g>
+    </svg>
+  )
+}

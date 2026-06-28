@@ -4,9 +4,19 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>iwildeer</title>
+    <title>Iwildeer</title>
+    <meta name="description" content="Iwildeer's personal website" />
+    <script>
+      ;(() => {
+        const schema = localStorage.getItem('color-schema')
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        const isDark = schema === 'dark' || (schema !== 'light' && prefersDark)
+        if (isDark) document.documentElement.classList.add('dark')
+      })()
+    </script>
   </head>
   <body>
+    <div id="bg-root" aria-hidden="true"></div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
