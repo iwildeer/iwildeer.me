@@ -69,5 +69,6 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           SSH_OPTS="-i ~/.ssh/deploy_key -o StrictHostKeyChecking=no -p ${ECS_SSH_PORT:-22}"
           rsync -avz --delete \
+            --exclude='.user.ini' \
             -e "ssh $SSH_OPTS" \
             dist/ "$ECS_USER@$ECS_HOST:$ECS_DEPLOY_PATH/"
