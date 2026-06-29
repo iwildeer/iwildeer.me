@@ -107,7 +107,7 @@ export function ArtPlum() {
 
       rafId = requestAnimationFrame(tick)
 
-      if (document.hidden || document.documentElement.dataset.themeTransition === 'true')
+      if (document.hidden || document.documentElement.dataset.themeTransition)
         return
 
       if (now - lastFrame < FRAME_INTERVAL)

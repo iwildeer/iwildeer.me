@@ -90,7 +90,7 @@ export function ArtDots() {
 
       rafId = requestAnimationFrame(drawFrame)
 
-      if (document.hidden || document.documentElement.dataset.themeTransition === 'true')
+      if (document.hidden || document.documentElement.dataset.themeTransition)
         return
 
       if (now - lastFrame < FRAME_INTERVAL)
