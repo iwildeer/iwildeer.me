@@ -35,60 +35,41 @@ function runViewTransitionToggle(
   nextDark: boolean,
   apply: () => void,
 ) {
-  const root = document.documentElement
-  const x = event.clientX || innerWidth / 2
-  const y = event.clientY || innerHeight / 2
+  const x = event.clientX
+  const y = event.clientY
   const endRadius = Math.hypot(
     Math.max(x, innerWidth - x),
     Math.max(y, innerHeight - y),
   )
-  const direction = nextDark ? 'to-dark' : 'to-light'
-  const clipPath = [
-    `circle(0px at ${x}px ${y}px)`,
-    `circle(${endRadius}px at ${x}px ${y}px)`,
-  ]
-  const fullyOpenClip = [`circle(${endRadius}px at ${x}px ${y}px)`]
-  const animationOptions = {
-    duration: 400,
-    easing: 'ease-out' as const,
-    fill: 'both' as FillMode,
-  }
-
-  root.style.setProperty('--vt-x', `${x}px`)
-  root.style.setProperty('--vt-y', `${y}px`)
 
   const transition = document.startViewTransition!(() => {
-    root.dataset.themeTransition = direction
+    document.documentElement.dataset.themeTransition = 'true'
     flushSync(apply)
   })
 
   transition.ready.then(() => {
-    if (nextDark) {
-      root.animate(
-        { clipPath: [...clipPath].reverse() },
-        { ...animationOptions, pseudoElement: '::view-transition-old(root)' },
-      )
-      root.animate(
-        { clipPath: fullyOpenClip },
-        { ...animationOptions, pseudoElement: '::view-transition-new(root)' },
-      )
-    }
-    else {
-      root.animate(
-        { clipPath },
-        { ...animationOptions, pseudoElement: '::view-transition-new(root)' },
-      )
-      root.animate(
-        { clipPath: fullyOpenClip },
-        { ...animationOptions, pseudoElement: '::view-transition-old(root)' },
-      )
-    }
+    const clipPath = [
+      `circle(0px at ${x}px ${y}px)`,
+      `circle(${endRadius}px at ${x}px ${y}px)`,
+    ]
+
+    document.documentElement.animate(
+      {
+        clipPath: nextDark ? [...clipPath].reverse() : clipPath,
+      },
+      {
+        duration: 400,
+        easing: 'ease-out',
+        fill: 'forwards',
+        pseudoElement: nextDark
+          ? '::view-transition-old(root)'
+          : '::view-transition-new(root)',
+      },
+    )
   })
 
   transition.finished.finally(() => {
-    delete root.dataset.themeTransition
-    root.style.removeProperty('--vt-x')
-    root.style.removeProperty('--vt-y')
+    delete document.documentElement.dataset.themeTransition
   })
 }
 
