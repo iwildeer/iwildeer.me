@@ -3,7 +3,7 @@ import { Footer } from '@/components/Footer'
 import { NavBar } from '@/components/NavBar'
 import { NProgressHandler } from '@/components/NProgressHandler'
 import { SiteBackground } from '@/components/SiteBackground'
-import { PageArtProvider } from '@/hooks/usePageArt'
+import { PageArtProvider } from '@/components/PageArtProvider'
 
 function App() {
   return (
