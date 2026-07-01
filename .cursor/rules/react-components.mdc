@@ -1,0 +1,112 @@
+---
+description: React 组件编写规范（iwildeer 项目）
+globs: **/*.tsx
+alwaysApply: false
+---
+
+# React 组件规范
+
+## 导入路径
+
+- `@` 映射到 `src/`（已在 `vite.config.ts` 与 `tsconfig.app.json` 配置）
+- 跨目录引用 `src` 内模块时使用 `@/` 前缀，避免 `../` 深层相对路径
+- 同目录或同组件包内的 `./` 相对导入可保留
+
+```tsx
+// ✅ 跨目录
+import { NavBar } from '@/components/NavBar'
+import { AppLink } from '@/components/AppLink'
+import { usePageMeta } from '@/hooks/usePageMeta'
+import { parseMarkdown } from '@/lib/content'
+
+// ✅ 同目录
+import { Icon } from './Icon'
+
+// ❌ 跨目录相对路径
+import { useDark } from '../hooks/useDark'
+
+// ❌ 不要在组件里手写 content/*.md 的 ?raw import（路由由 lib/content.ts 统一管理）
+```
+
+## 组件结构
+
+- 仅使用函数组件，禁止 class 组件
+- 组件文件用 PascalCase（如 `NavBar.tsx`），`src/components/` 下使用**命名导出**：`export function NavBar()`
+- 入口 `App.tsx` 例外，可使用 `export default`
+- 简单 props 可内联类型；多字段或复用时用 `interface`（定义在 `@/types/content.ts` 或组件文件内）
+- 仅用于类型的 import 使用 `import type`
+- 含 JSX 的 hook 文件使用 `.tsx` 扩展名（如 `usePageArt.tsx`）
+
+```tsx
+// ✅ 页面组件
+interface ContentPageProps {
+  entry: PageEntry
+}
+export function ContentPage({ entry }: ContentPageProps) { ... }
+
+// ✅ 复杂 props
+interface MagicLinkProps {
+  name: string
+  children: React.ReactNode
+}
+export function MagicLink({ name, children }: MagicLinkProps) { ... }
+```
+
+## 逻辑拆分
+
+- 可复用状态/副作用逻辑 → `src/hooks/`（如 `useDark`、`usePageMeta`、`usePageArt`）
+- Markdown 解析、glob 索引、路由数据 → `src/lib/content.ts`
+- Markdown 渲染组件映射 → `src/lib/markdownComponents.tsx`
+- 仅本文件使用的 helper、小型子组件 → 同文件内非导出函数（如 `DarkToggle`、`ScrollToTop`）
+- 副作用用 `useEffect` / `useLayoutEffect`，必须返回 cleanup（事件监听、RAF、定时器等）
+
+## 样式
+
+- 优先 Tailwind 工具类 + `index.css` 中的语义类（`nav-link`、`prose-site`、`post-list`、`project-grid` 等）
+- 主题色用 CSS 变量：`text-[var(--fg)]`，暗色模式通过 `document.documentElement.classList.toggle('dark')` 控制
+- 避免内联 style，除非动态值不可避免（如 `backgroundImage`、动画 stage 变量）
+
+## 路由与链接
+
+- **统一使用 `AppLink`**：站内 `<Link>`，站外 / `mailto:` 自动 `target="_blank" rel="noreferrer"`
+- NavBar、SocialLinks、Markdown 内链、ListPosts 等均通过 `AppLink`
+- 路由定义仅在 `src/routes/AppRoutes.tsx`，基于 `pageEntries` / `postEntries` 生成，勿手写页面 import
+
+```tsx
+// ✅
+<AppLink to="/posts" className="content-link">Blog</AppLink>
+<AppLink to="https://github.com/iwildeer">GitHub</AppLink>
+
+// ❌ 不要在组件中散落 Link / <a> 判断逻辑（Markdown 除外，由 markdownComponents 封装）
+```
+
+## 内容页组件
+
+| 组件 | 职责 |
+|------|------|
+| `ContentPage` | 静态页：按 `layout` 渲染 markdown / ListPosts / ListProjects |
+| `PostPage` | 文章详情：标题、日期、返回链接 |
+| `ListPosts` | 从 `getPublishedPosts()` 渲染列表 |
+| `ListProjects` | 渲染 frontmatter `projects` 分组卡片 |
+| `NotFoundPage` | 读取 `404.md` 内容 |
+
+页面级副作用：`usePageMeta(meta)` 更新 title/description；`usePageArt(art)` 切换背景。
+
+## Markdown 渲染
+
+- 使用 `react-markdown` + `remark-gfm` + `rehype-highlight`
+- 自定义组件见 `src/lib/markdownComponents.tsx`
+- `{Name}` Magic Link 由 `expandMagicLinks()` 预处理，映射在 `src/content/links.ts`
+- `social: true` 时在 ContentPage 末尾渲染 `SocialLinks`（不依赖正文硬编码字符串）
+
+## 图标与无障碍
+
+- 图标统一用 `<Icon icon="ri:..." />`，类型为 `RegisteredIcon`
+- 新图标须先在 `src/icons/index.ts` 注册
+- NavBar 移动端显示图标、桌面端显示文字；交互元素加 `aria-label`
+- 使用语义化标签：`header`、`nav`、`main`、`article`、`footer`
+
+## 性能
+
+- 项目已启用 React Compiler（`babel-plugin-react-compiler`），不要默认添加 `useMemo` / `useCallback` / `memo`
+- 仅在 profiler 证明有必要，或 hook 依赖数组确实需要稳定引用时再手动优化

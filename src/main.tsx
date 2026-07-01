@@ -1,16 +1,14 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import './index.css'
-import './lib/nprogress'
-import App from './App.tsx'
-import { NProgressHandler } from './components/NProgressHandler.tsx'
+import { RouterProvider } from 'react-router-dom'
+import 'highlight.js/styles/github.min.css'
+import '@/index.css'
+import '@/lib/nprogress'
+import { router } from '@/routes/AppRoutes'
 
-createRoot(document.getElementById('root')!).render(
+const rootElement = document.getElementById('root')!
+createRoot(rootElement).render(
   <StrictMode>
-    <BrowserRouter>
-      <NProgressHandler />
-      <App />
-    </BrowserRouter>
+    <RouterProvider router={router} />
   </StrictMode>,
 )

@@ -1,12 +1,14 @@
-import { Link } from 'react-router-dom'
-import { Icon } from './Icon'
-import { Logo } from './Logo'
-import { useDark } from '../hooks/useDark'
+import { useEffect, useState } from 'react'
+import { AppLink } from '@/components/AppLink'
+import { Icon } from '@/components/Icon'
+import { Logo } from '@/components/Logo'
+import { useDark } from '@/hooks/useDark'
+import type { RegisteredIcon } from '@/icons'
 
-const navItems = [
-  { label: 'Blog', href: '/posts' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'About', href: '/about' },
+const navItems: { label: string; href: string; icon: RegisteredIcon }[] = [
+  { label: 'Blog', href: '/posts', icon: 'ri:article-line' },
+  { label: 'Projects', href: '/projects', icon: 'ri:lightbulb-line' },
+  { label: 'About', href: '/about', icon: 'ri:user-line' },
 ]
 
 function DarkToggle({ isDark, onToggle }: { isDark: boolean; onToggle: (event: React.MouseEvent<HTMLButtonElement>) => void }) {
@@ -22,21 +24,46 @@ function DarkToggle({ isDark, onToggle }: { isDark: boolean; onToggle: (event: R
   )
 }
 
+function ScrollToTop() {
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 300)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <button
+      type="button"
+      className={`scroll-top${visible ? ' scroll-top-visible' : ''}`}
+      title="Scroll to top"
+      aria-label="Scroll to top"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+    >
+      <Icon icon="ri:arrow-up-line" />
+    </button>
+  )
+}
+
 export function NavBar() {
   const { isDark, toggleDark } = useDark()
 
   return (
     <header className="header">
-      <Link to="/" className="logo-link" aria-label="Home">
+      <AppLink to="/" className="logo-link" aria-label="Home">
         <Logo />
-      </Link>
+      </AppLink>
+      <ScrollToTop />
       <nav className="nav" aria-label="Main navigation">
         <div className="nav-spacer" />
         <div className="nav-right">
           {navItems.map(item => (
-            <Link key={item.href} to={item.href} className="nav-link">
-              {item.label}
-            </Link>
+            <AppLink key={item.href} to={item.href} className="nav-link" title={item.label}>
+              <span className="nav-label">{item.label}</span>
+              <Icon icon={item.icon} className="nav-icon-only" />
+            </AppLink>
           ))}
           <DarkToggle isDark={isDark} onToggle={toggleDark} />
         </div>

@@ -1,30 +1,23 @@
-import { Routes, Route } from 'react-router-dom'
-import aboutMd from './content/about.md?raw'
-import homeMd from './content/home.md?raw'
-import postsMd from './content/posts.md?raw'
-import projectsMd from './content/projects.md?raw'
-import { Footer } from './components/Footer'
-import { MarkdownContent } from './components/MarkdownContent'
-import { NavBar } from './components/NavBar'
-import { SiteBackground } from './components/SiteBackground'
+import { Outlet } from 'react-router-dom'
+import { Footer } from '@/components/Footer'
+import { NavBar } from '@/components/NavBar'
+import { NProgressHandler } from '@/components/NProgressHandler'
+import { SiteBackground } from '@/components/SiteBackground'
+import { PageArtProvider } from '@/hooks/usePageArt'
 
 function App() {
   return (
-    <>
+    <PageArtProvider>
+      <NProgressHandler />
       <SiteBackground />
       <div className="relative z-1 text-[var(--fg)]">
         <NavBar />
-        <main>
-          <Routes>
-            <Route path="/" element={<MarkdownContent source={homeMd} />} />
-            <Route path="/posts" element={<MarkdownContent source={postsMd} />} />
-            <Route path="/projects" element={<MarkdownContent source={projectsMd} />} />
-            <Route path="/about" element={<MarkdownContent source={aboutMd} />} />
-          </Routes>
+        <main className="site-main">
+          <Outlet />
+          <Footer />
         </main>
-        <Footer />
       </div>
-    </>
+    </PageArtProvider>
   )
 }
 

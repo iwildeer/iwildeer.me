@@ -1,0 +1,94 @@
+---
+description: iwildeer 项目通用规范（路径别名、目录结构、内容路由）
+alwaysApply: true
+---
+
+# 项目规范
+
+## 路径别名 `@`
+
+| 配置项 | 值 |
+|--------|-----|
+| 别名 | `@` → `src/` |
+| Vite | `vite.config.ts` → `resolve.alias` |
+| TypeScript | `tsconfig.app.json` → `paths["@/*"]` |
+
+引用 `src` 下的模块时统一使用 `@/` 前缀：
+
+```tsx
+import { router } from '@/routes/AppRoutes'
+import { ContentPage } from '@/components/ContentPage'
+import { getPublishedPosts } from '@/lib/content'
+import { usePageMeta } from '@/hooks/usePageMeta'
+import '@/index.css'
+```
+
+同目录或同一组件包内的 `./` 相对导入可保留（如 `@/components/NavBar` 引用 `./Icon`）。
+
+## 目录结构
+
+```
+src/
+├── App.tsx              # 布局壳（default export，含 Outlet）
+├── main.tsx             # 入口，RouterProvider
+├── routes/
+│   └── AppRoutes.tsx    # createBrowserRouter，由 content 自动生成子路由
+├── components/          # UI 组件（命名导出）
+│   ├── background/      # Canvas 背景（ArtDots、ArtPlum）
+│   ├── AppLink.tsx      # 内外链统一组件
+│   ├── ContentPage.tsx  # 静态页渲染（layout 分发）
+│   ├── PostPage.tsx     # 博客文章页
+│   ├── ListPosts.tsx    # 文章列表
+│   ├── ListProjects.tsx # 项目卡片网格
+│   └── NotFoundPage.tsx # 404
+├── content/
+│   ├── pages/           # 静态页面 Markdown（自动路由）
+│   ├── posts/           # 博客文章 Markdown（/posts/:slug）
+│   └── links.ts         # Magic Link 与社交链接配置
+├── hooks/               # useDark、usePageMeta、usePageArt
+├── icons/               # Iconify 图标注册表
+├── lib/
+│   ├── content.ts       # import.meta.glob、parseMarkdown、posts 索引
+│   ├── markdownComponents.tsx
+│   └── formatDate.ts
+└── types/
+    └── content.ts       # PageMeta、PostEntry 等类型
+```
+
+## 内容路由
+
+页面与文章**不要**在 `AppRoutes.tsx` 里手写 import。由 `src/lib/content.ts` 扫描：
+
+| 文件路径 | 路由 |
+|----------|------|
+| `content/pages/index.md` | `/` |
+| `content/pages/about.md` | `/about` |
+| `content/pages/posts.md` | `/posts` |
+| `content/pages/projects.md` | `/projects` |
+| `content/pages/404.md` | 404 内容源（非独立路由） |
+| `content/posts/*.md` | `/posts/:slug` |
+
+新增静态页：在 `content/pages/` 添加 `.md` 即可。  
+新增文章：在 `content/posts/` 添加 `.md` 即可。  
+`404.md` 仅作 NotFound 页内容，不生成路由。
+
+## Frontmatter 约定
+
+使用 YAML frontmatter（`---` 包裹），由 `yaml` 解析。常用字段：
+
+| 字段 | 用途 |
+|------|------|
+| `title` | 页面标题 |
+| `description` | SEO meta description（`usePageMeta`） |
+| `date` | 文章日期（列表排序与展示） |
+| `draft` | `true` 时不出现在 ListPosts |
+| `layout` | `posts-list` / `projects` / 默认 markdown |
+| `social` | `true` 时在页末渲染 SocialLinks |
+| `art` | 背景：`dots` / `plum` / `both` |
+| `projects` | 项目分组对象（`layout: projects` 页） |
+
+## 路由架构
+
+- `main.tsx`：`RouterProvider` + `router`（来自 `AppRoutes.tsx`）
+- `App.tsx`：布局壳（NavBar、Footer、SiteBackground、`<Outlet />`）
+- 通配路由 `*` → `NotFoundPage`

@@ -1,6 +1,7 @@
 ---
 title: Iwildeer
 description: Iwildeer's personal website
+social: true
 ---
 
 Hey! I'm Iwildeer, a developer passionate about programming and creating.

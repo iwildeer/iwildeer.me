@@ -1,6 +1,6 @@
 import { useLayoutEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { NProgress } from '../lib/nprogress'
+import { NProgress } from '@/lib/nprogress'
 
 export function NProgressHandler() {
   const location = useLocation()

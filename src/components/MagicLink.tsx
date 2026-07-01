@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import { magicLinks, type MagicLinkMeta } from '../content/links'
+import { AppLink } from '@/components/AppLink'
+import { magicLinks, type MagicLinkMeta } from '@/content/links'
 
 interface MagicLinkProps {
   name: string
@@ -22,7 +22,7 @@ export function MagicLink({ name, children }: MagicLinkProps) {
     <>
       {imageUrl && (
         <span
-          className="magic-link-image"
+          className="markdown-magic-link-image"
           style={{ backgroundImage: `url(${imageUrl})` }}
         />
       )}
@@ -34,7 +34,7 @@ export function MagicLink({ name, children }: MagicLinkProps) {
     return (
       <a
         href={link}
-        className="magic-link"
+        className="markdown-magic-link"
         target="_blank"
         rel="noreferrer"
       >
@@ -44,8 +44,8 @@ export function MagicLink({ name, children }: MagicLinkProps) {
   }
 
   return (
-    <Link to={link} className="magic-link">
+    <AppLink to={link} className="markdown-magic-link">
       {content}
-    </Link>
+    </AppLink>
   )
 }

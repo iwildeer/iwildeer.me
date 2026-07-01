@@ -1,5 +1,5 @@
 import { Icon as IconifyIcon, type IconProps } from '@iconify/react'
-import { iconRegistry, type RegisteredIcon } from '../icons'
+import { iconRegistry, type RegisteredIcon } from '@/icons'
 
 type Props = Omit<IconProps, 'icon'> & {
   icon: RegisteredIcon

@@ -1,4 +1,4 @@
-import type { RegisteredIcon } from '../icons'
+import type { RegisteredIcon } from '@/icons'
 
 export interface MagicLinkMeta {
   link: string
