@@ -2,6 +2,7 @@
 title: Hello World
 description: First blog post on iwildeer
 date: 2026-03-01
+type: blog
 art: plum
 ---
 
@@ -20,7 +21,7 @@ console.log(posts.length)
 
 - File-based content routing with `import.meta.glob`
 - GFM support (tables, task lists, ~~strikethrough~~)
-- Syntax highlighting via `rehype-highlight`
+- Syntax highlighting via Shiki
 
 | Feature | Status |
 | --- | --- |

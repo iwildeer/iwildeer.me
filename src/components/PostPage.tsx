@@ -1,10 +1,7 @@
-import Markdown from 'react-markdown'
-import rehypeHighlight from 'rehype-highlight'
-import remarkGfm from 'remark-gfm'
 import { AppLink } from '@/components/AppLink'
+import { Markdown } from '@/components/Markdown'
 import { expandMagicLinks } from '@/lib/content'
 import { formatDate } from '@/lib/formatDate'
-import { markdownComponents } from '@/lib/markdownComponents'
 import { usePageMeta } from '@/hooks/usePageMeta'
 import { usePageArt } from '@/hooks/usePageArt'
 import type { PostEntry } from '@/types/content'
@@ -31,7 +28,7 @@ export function PostPage({ entry }: PostPageProps) {
           <time dateTime={meta.date}>{formatDate(meta.date)}</time>
         </p>
       )}
-      <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]} components={markdownComponents}>{content}</Markdown>
+      <Markdown>{content}</Markdown>
     </article>
   )
 }

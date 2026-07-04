@@ -5,7 +5,6 @@ import lightbulbLine from '@iconify-icons/ri/lightbulb-line'
 import mailLine from '@iconify-icons/ri/mail-line'
 import moonLine from '@iconify-icons/ri/moon-line'
 import sunLine from '@iconify-icons/ri/sun-line'
-import userLine from '@iconify-icons/ri/user-line'
 
 export const iconRegistry = {
   'ri:github-fill': githubFill,
@@ -15,7 +14,6 @@ export const iconRegistry = {
   'ri:mail-line': mailLine,
   'ri:moon-line': moonLine,
   'ri:sun-line': sunLine,
-  'ri:user-line': userLine,
 } as const
 
 export type RegisteredIcon = keyof typeof iconRegistry

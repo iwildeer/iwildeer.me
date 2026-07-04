@@ -1,4 +1,6 @@
 export type PageLayout = 'default' | 'posts-list' | 'projects'
+export type PostType = 'blog' | 'note'
+export type ListType = PostType
 
 export interface ProjectItem {
   name: string
@@ -12,6 +14,9 @@ export interface PageMeta {
   date?: string
   draft?: boolean
   layout?: PageLayout
+  listType?: ListType
+  type?: PostType | string
+  duration?: string
   social?: boolean
   art?: 'dots' | 'plum' | 'both'
   projects?: Record<string, ProjectItem[]>

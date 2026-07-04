@@ -1,14 +1,12 @@
-import Markdown from 'react-markdown'
-import rehypeHighlight from 'rehype-highlight'
-import remarkGfm from 'remark-gfm'
 import { expandMagicLinks, parseMarkdown } from '@/lib/content'
-import { markdownComponents } from '@/lib/markdownComponents'
 import { usePageMeta } from '@/hooks/usePageMeta'
 import { usePageArt } from '@/hooks/usePageArt'
 import { ListPosts } from '@/components/ListPosts'
 import { ListProjects } from '@/components/ListProjects'
+import { Markdown } from '@/components/Markdown'
 import { SocialLinks } from '@/components/SocialLinks'
-import type { PageEntry } from '@/types/content'
+import { SubNav } from '@/components/SubNav'
+import type { ListType, PageEntry } from '@/types/content'
 
 interface ContentPageProps {
   entry: PageEntry
@@ -22,8 +20,9 @@ export function ContentPage({ entry }: ContentPageProps) {
 
   const layout = meta.layout ?? (meta.projects ? 'projects' : 'default')
   const content = expandMagicLinks(body)
+  const listType = (meta.listType ?? 'blog') as ListType
   const showTitle = layout === 'posts-list'
-    ? Boolean(meta.title)
+    ? false
     : Boolean(meta.title) && meta.display !== ''
 
   return (
@@ -32,21 +31,22 @@ export function ContentPage({ entry }: ContentPageProps) {
 
       {layout === 'posts-list' && (
         <>
-          {content && <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]} components={markdownComponents}>{content}</Markdown>}
-          <ListPosts />
+          <SubNav />
+          {content && <Markdown>{content}</Markdown>}
+          <ListPosts type={listType} />
         </>
       )}
 
       {layout === 'projects' && meta.projects && (
         <div className="project-list-wrap">
-          {content && <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]} components={markdownComponents}>{content}</Markdown>}
+          {content && <Markdown>{content}</Markdown>}
           <ListProjects projects={meta.projects} />
         </div>
       )}
 
       {layout === 'default' && (
         <>
-          <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]} components={markdownComponents}>{content}</Markdown>
+          <Markdown>{content}</Markdown>
           {meta.social && <SocialLinks />}
         </>
       )}

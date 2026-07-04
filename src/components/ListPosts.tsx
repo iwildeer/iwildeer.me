@@ -2,6 +2,11 @@ import type { CSSProperties } from 'react'
 import { AppLink } from '@/components/AppLink'
 import { getPublishedPosts } from '@/lib/content'
 import { formatDate } from '@/lib/formatDate'
+import type { ListType } from '@/types/content'
+
+interface ListPostsProps {
+  type?: ListType
+}
 
 function getYear(value: string) {
   return new Date(value).getFullYear()
@@ -13,8 +18,8 @@ function isSameGroup(current?: string, previous?: string) {
   return getYear(current) === getYear(previous)
 }
 
-export function ListPosts() {
-  const posts = getPublishedPosts()
+export function ListPosts({ type = 'blog' }: ListPostsProps) {
+  const posts = getPublishedPosts(type)
 
   if (!posts.length) {
     return <div className="post-list-empty">{'{ nothing here yet }'}</div>
@@ -43,7 +48,10 @@ export function ListPosts() {
                 <div className="post-list-entry">
                   <div className="post-list-title">{post.meta.title ?? post.slug}</div>
                   {post.meta.date && (
-                    <span className="post-list-date">{formatDate(post.meta.date)}</span>
+                    <span className="post-list-date">
+                      {formatDate(post.meta.date)}
+                      {post.meta.duration && ` · ${post.meta.duration}`}
+                    </span>
                   )}
                 </div>
               </AppLink>

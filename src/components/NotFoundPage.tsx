@@ -1,9 +1,6 @@
-import Markdown from 'react-markdown'
-import rehypeHighlight from 'rehype-highlight'
-import remarkGfm from 'remark-gfm'
 import { AppLink } from '@/components/AppLink'
+import { Markdown } from '@/components/Markdown'
 import { expandMagicLinks, getNotFoundSource, parseMarkdown } from '@/lib/content'
-import { markdownComponents } from '@/lib/markdownComponents'
 import { usePageMeta } from '@/hooks/usePageMeta'
 
 export function NotFoundPage() {
@@ -18,7 +15,7 @@ export function NotFoundPage() {
   return (
     <article className="prose m-auto slide-enter-content">
       {meta.title && <h1>{meta.title}</h1>}
-      <Markdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]} components={markdownComponents}>{content}</Markdown>
+      <Markdown>{content}</Markdown>
       <p>
         <AppLink to="/">← Back to home</AppLink>
       </p>

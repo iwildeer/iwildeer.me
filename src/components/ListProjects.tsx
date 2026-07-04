@@ -12,7 +12,6 @@ function slugify(name: string) {
 
 export function ListProjects({ projects }: ListProjectsProps) {
   const groups = Object.entries(projects)
-
   return (
     <>
       {groups.map(([group, items], groupIndex) => (

@@ -1,11 +1,15 @@
 import { parse as parseYaml } from 'yaml'
-import type { PageEntry, PageMeta, PostEntry } from '@/types/content'
+import type {
+  ListType,
+  PageEntry,
+  PageMeta,
+  PostEntry,
+} from '@/types/content'
 
 const pageModules = import.meta.glob<string>(
   '@/content/pages/*.md',
   { query: '?raw', import: 'default', eager: true },
 )
-
 const postModules = import.meta.glob<string>(
   '@/content/posts/*.md',
   { query: '?raw', import: 'default', eager: true },
@@ -79,17 +83,40 @@ export function getNotFoundSource() {
   return entry?.[1] ?? null
 }
 
-export function getPublishedPosts() {
-  return postEntries.filter(post => !post.meta.draft)
+export function getPublishedPosts(type: ListType = 'blog') {
+  return postEntries.filter((post) => {
+    if (post.meta.draft)
+      return false
+    const postType = post.meta.type || 'blog'
+    return postType.split('+').includes(type)
+  })
 }
 
 export function getPostBySlug(slug: string) {
   return postEntries.find(post => post.slug === slug)
 }
 
-export function expandMagicLinks(markdown: string) {
-  return markdown.replace(
+const PROTECTED_MARKDOWN_RE = /```[\s\S]*?```|`[^`\n]+`/g
+
+function expandMagicLinksInText(text: string) {
+  return text.replace(
     /\{([^}]+)\}/g,
     (_, name: string) => `[${name.trim()}](magic:${encodeURIComponent(name.trim())})`,
+  )
+}
+
+export function expandMagicLinks(markdown: string) {
+  const protectedSpans: string[] = []
+
+  const masked = markdown.replace(PROTECTED_MARKDOWN_RE, (match) => {
+    protectedSpans.push(match)
+    return `\0CODE${protectedSpans.length - 1}\0`
+  })
+
+  const expanded = expandMagicLinksInText(masked)
+
+  return expanded.replace(
+    /\0CODE(\d+)\0/g,
+    (_, index) => protectedSpans[Number(index)],
   )
 }

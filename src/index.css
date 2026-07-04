@@ -1,4 +1,5 @@
 @import '@fontsource-variable/inter';
+@import '@fontsource/dm-mono/400.css';
 @import '@fontsource/lxgw-wenkai/500.css';
 @import '@fontsource/lxgw-wenkai/700.css';
 @import 'tailwindcss';
@@ -9,6 +10,7 @@
 
 @theme {
   --font-sans: 'Inter Variable', Inter, 'LXGW WenKai', serif;
+  --font-mono: 'DM Mono', 'Input Mono', 'Fira Code', monospace;
 }
 
 :root {
@@ -20,6 +22,7 @@
   --fg-deep: #222;
   --fg-deeper: #000;
   --font-sans: 'Inter Variable', Inter, 'LXGW WenKai', serif;
+  --font-mono: 'DM Mono', 'Input Mono', 'Fira Code', monospace;
   color-scheme: light dark;
 }
 
@@ -332,6 +335,40 @@ html.dark .logo-path {
 .scroll-top-visible:hover {
   opacity: 1;
   background: #8883;
+}
+
+.subnav {
+  margin-bottom: 2rem;
+  user-select: none;
+}
+
+.subnav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 1.875rem;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.subnav-link {
+  text-decoration: none;
+  border-bottom: none !important;
+  opacity: 0.2;
+  transition: opacity 0.2s ease;
+  color: inherit;
+  font-weight: inherit;
+}
+
+.subnav-link:hover {
+  opacity: 0.5;
+  border-bottom: none !important;
+}
+
+.subnav-link-active {
+  opacity: 1;
+  text-decoration: underline;
+  border-bottom: none !important;
 }
 
 .social-row {

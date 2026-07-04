@@ -62,8 +62,8 @@ src/
 | 文件路径 | 路由 |
 |----------|------|
 | `content/pages/index.md` | `/` |
-| `content/pages/about.md` | `/about` |
 | `content/pages/posts.md` | `/posts` |
+| `content/pages/notes.md` | `/notes` |
 | `content/pages/projects.md` | `/projects` |
 | `content/pages/404.md` | 404 内容源（非独立路由） |
 | `content/posts/*.md` | `/posts/:slug` |
@@ -81,8 +81,11 @@ src/
 | `title` | 页面标题 |
 | `description` | SEO meta description（`usePageMeta`） |
 | `date` | 文章日期（列表排序与展示） |
-| `draft` | `true` 时不出现在 ListPosts |
+| `type` | 文章类型：`blog`（默认）/ `note` |
+| `duration` | 阅读时长（如 `2min`） |
+| `draft` | `true` 时不出现在列表 |
 | `layout` | `posts-list` / `projects` / 默认 markdown |
+| `listType` | 列表页过滤类型：`blog` / `note`（用于 `/posts`、`/notes`） |
 | `social` | `true` 时在页末渲染 SocialLinks |
 | `art` | 背景：`dots` / `plum` / `both` |
 | `projects` | 项目分组对象（`layout: projects` 页） |
