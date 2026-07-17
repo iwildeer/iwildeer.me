@@ -20,24 +20,19 @@ function fileName(path: string) {
   return match?.[1] ?? ''
 }
 
+const FRONTMATTER_RE = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/
+
 export function parseMarkdown(raw: string) {
-  if (!raw.startsWith('---')) {
+  const match = FRONTMATTER_RE.exec(raw)
+  if (!match) {
     return {
       meta: {} as PageMeta,
       body: raw.trim(),
     }
   }
 
-  const end = raw.indexOf('---', 3)
-  if (end === -1) {
-    return {
-      meta: {} as PageMeta,
-      body: raw.trim(),
-    }
-  }
-
-  const yamlStr = raw.slice(3, end).trim()
-  const body = raw.slice(end + 3).trim()
+  const yamlStr = match[1].trim()
+  const body = raw.slice(match[0].length).trim()
   const meta = (parseYaml(yamlStr) ?? {}) as PageMeta
 
   return { meta, body }

@@ -1,22 +1,13 @@
 import { AppLink } from '@/components/AppLink'
-import { magicLinks, type MagicLinkMeta } from '@/content/links'
+import { resolveMagicLink } from '@/content/links'
 
 interface MagicLinkProps {
   name: string
   children: React.ReactNode
 }
 
-function resolveLink(name: string): MagicLinkMeta {
-  const entry = magicLinks[name]
-  if (!entry)
-    return { link: '#' }
-  if (typeof entry === 'string')
-    return { link: entry }
-  return entry
-}
-
 export function MagicLink({ name, children }: MagicLinkProps) {
-  const { link, imageUrl } = resolveLink(name)
+  const { link, imageUrl } = resolveMagicLink(name)
   const isExternal = link.startsWith('http')
   const content = (
     <>
