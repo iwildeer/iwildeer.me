@@ -9,8 +9,8 @@ export function Footer() {
         >
           CC BY-NC-SA 4.0
         </a>
-        {' '}
-        2024-PRESENT © Iwildeer
+        &nbsp;
+        2026-PRESENT © Iwildeer
       </span>
       <div className="flex-auto" />
     </div>

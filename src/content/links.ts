@@ -26,3 +26,12 @@ export const socialLinks: SocialLink[] = [
   { label: 'GitHub', href: 'https://github.com/iwildeer', icon: 'ri:github-fill' },
   { label: 'Mail', href: 'mailto:hi@iwildeer.me', icon: 'ri:mail-line' },
 ]
+
+export function resolveMagicLink(name: string): MagicLinkMeta {
+  const entry = magicLinks[name]
+  if (!entry)
+    return { link: '#' }
+  if (typeof entry === 'string')
+    return { link: entry }
+  return entry
+}

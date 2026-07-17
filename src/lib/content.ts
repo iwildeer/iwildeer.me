@@ -1,18 +1,24 @@
 import { parse as parseYaml } from 'yaml'
 import type {
+  Highlights,
   ListType,
   PageEntry,
   PageMeta,
   PostEntry,
 } from '@/types/content'
 
-const pageModules = import.meta.glob<string>(
+interface MdModule {
+  source: string
+  highlights: Highlights
+}
+
+const pageModules = import.meta.glob<MdModule>(
   '@/content/pages/*.md',
-  { query: '?raw', import: 'default', eager: true },
+  { query: '?md-source', eager: true },
 )
-const postModules = import.meta.glob<string>(
+const postModules = import.meta.glob<MdModule>(
   '@/content/posts/*.md',
-  { query: '?raw', import: 'default', eager: true },
+  { query: '?md-source', eager: true },
 )
 
 function fileName(path: string) {
@@ -20,24 +26,19 @@ function fileName(path: string) {
   return match?.[1] ?? ''
 }
 
+const FRONTMATTER_RE = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/
+
 export function parseMarkdown(raw: string) {
-  if (!raw.startsWith('---')) {
+  const match = FRONTMATTER_RE.exec(raw)
+  if (!match) {
     return {
       meta: {} as PageMeta,
       body: raw.trim(),
     }
   }
 
-  const end = raw.indexOf('---', 3)
-  if (end === -1) {
-    return {
-      meta: {} as PageMeta,
-      body: raw.trim(),
-    }
-  }
-
-  const yamlStr = raw.slice(3, end).trim()
-  const body = raw.slice(end + 3).trim()
+  const yamlStr = match[1].trim()
+  const body = raw.slice(match[0].length).trim()
   const meta = (parseYaml(yamlStr) ?? {}) as PageMeta
 
   return { meta, body }
@@ -45,15 +46,16 @@ export function parseMarkdown(raw: string) {
 
 function buildPageEntries(): PageEntry[] {
   return Object.entries(pageModules)
-    .map(([path, source]) => {
+    .map(([path, mod]) => {
       const name = fileName(path)
       if (name === '404')
         return null
 
-      const { meta } = parseMarkdown(source)
+      const { meta } = parseMarkdown(mod.source)
       return {
         slug: name === 'index' ? '' : name,
-        source,
+        source: mod.source,
+        highlights: mod.highlights,
         meta,
         isIndex: name === 'index',
       } satisfies PageEntry
@@ -63,10 +65,10 @@ function buildPageEntries(): PageEntry[] {
 
 function buildPostEntries(): PostEntry[] {
   return Object.entries(postModules)
-    .map(([path, source]) => {
+    .map(([path, mod]) => {
       const slug = fileName(path)
-      const { meta, body } = parseMarkdown(source)
-      return { slug, source, meta, body }
+      const { meta, body } = parseMarkdown(mod.source)
+      return { slug, source: mod.source, highlights: mod.highlights, meta, body }
     })
     .sort((a, b) => {
       const dateA = a.meta.date ? new Date(a.meta.date).getTime() : 0
@@ -78,9 +80,11 @@ function buildPostEntries(): PostEntry[] {
 export const pageEntries = buildPageEntries()
 export const postEntries = buildPostEntries()
 
-export function getNotFoundSource() {
+export function getNotFoundEntry(): { source: string; highlights: Highlights } | null {
   const entry = Object.entries(pageModules).find(([path]) => fileName(path) === '404')
-  return entry?.[1] ?? null
+  if (!entry)
+    return null
+  return { source: entry[1].source, highlights: entry[1].highlights }
 }
 
 export function getPublishedPosts(type: ListType = 'blog') {

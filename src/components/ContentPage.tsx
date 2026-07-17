@@ -32,21 +32,21 @@ export function ContentPage({ entry }: ContentPageProps) {
       {layout === 'posts-list' && (
         <>
           <SubNav />
-          {content && <Markdown>{content}</Markdown>}
+          {content && <Markdown highlights={entry.highlights}>{content}</Markdown>}
           <ListPosts type={listType} />
         </>
       )}
 
       {layout === 'projects' && meta.projects && (
         <div className="project-list-wrap">
-          {content && <Markdown>{content}</Markdown>}
+          {content && <Markdown highlights={entry.highlights}>{content}</Markdown>}
           <ListProjects projects={meta.projects} />
         </div>
       )}
 
       {layout === 'default' && (
         <>
-          <Markdown>{content}</Markdown>
+          <Markdown highlights={entry.highlights}>{content}</Markdown>
           {meta.social && <SocialLinks />}
         </>
       )}

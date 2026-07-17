@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import babel from '@rolldown/plugin-babel'
 import tailwindcss from '@tailwindcss/vite'
+import { shikiHighlightPlugin } from './vite-plugin-shiki.ts'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -18,5 +19,6 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss(),
+    shikiHighlightPlugin(),
   ],
 })

@@ -1,3 +1,5 @@
+export type Highlights = Record<string, string>
+
 export type PageLayout = 'default' | 'posts-list' | 'projects'
 export type PostType = 'blog' | 'note'
 export type ListType = PostType
@@ -27,6 +29,7 @@ export interface PageMeta {
 export interface PageEntry {
   slug: string
   source: string
+  highlights: Highlights
   meta: PageMeta
   isIndex: boolean
 }
@@ -34,6 +37,7 @@ export interface PageEntry {
 export interface PostEntry {
   slug: string
   source: string
+  highlights: Highlights
   meta: PageMeta
   body: string
 }

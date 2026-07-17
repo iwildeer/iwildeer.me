@@ -28,7 +28,7 @@ export function PostPage({ entry }: PostPageProps) {
           <time dateTime={meta.date}>{formatDate(meta.date)}</time>
         </p>
       )}
-      <Markdown>{content}</Markdown>
+      <Markdown highlights={entry.highlights}>{content}</Markdown>
     </article>
   )
 }
