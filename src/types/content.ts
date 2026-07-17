@@ -29,6 +29,7 @@ export interface PageMeta {
 export interface PageEntry {
   slug: string
   source: string
+  highlights: Highlights
   meta: PageMeta
   isIndex: boolean
 }
@@ -36,6 +37,7 @@ export interface PageEntry {
 export interface PostEntry {
   slug: string
   source: string
+  highlights: Highlights
   meta: PageMeta
   body: string
 }
