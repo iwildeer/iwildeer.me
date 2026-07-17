@@ -1,3 +1,5 @@
+export type Highlights = Record<string, string>
+
 export type PageLayout = 'default' | 'posts-list' | 'projects'
 export type PostType = 'blog' | 'note'
 export type ListType = PostType
