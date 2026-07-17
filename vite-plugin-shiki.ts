@@ -1,20 +1,30 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
+import path from 'node:path'
 import type { Plugin } from 'vite'
 import { codeToHtml } from 'shiki'
 import { findFencedCode } from './src/lib/fence.ts'
 import { shikiThemes } from './src/lib/shiki.ts'
 
-const QUERY = '?md-source'
-
 export function shikiHighlightPlugin(): Plugin {
+  let root = process.cwd()
   return {
     name: 'shiki-highlight',
+    enforce: 'pre',
+    configResolved(config) {
+      root = config.root
+    },
     async load(id) {
-      if (!id.endsWith(QUERY))
+      const queryIndex = id.indexOf('?')
+      if (queryIndex === -1)
         return null
-      const file = id.slice(0, id.indexOf(QUERY))
-      if (!file.endsWith('.md'))
+      let file = id.slice(0, queryIndex)
+      const query = id.slice(queryIndex + 1)
+      if (!file.endsWith('.md') || !query.split('&').includes('md-source'))
         return null
+      // In dev, ids are root-relative (e.g. "/src/..."); in build/vitest they
+      // are absolute. Normalize to an existing absolute path either way.
+      if (!(path.isAbsolute(file) && existsSync(file)))
+        file = path.resolve(root, file.replace(/^\//, ''))
 
       const raw = readFileSync(file, 'utf8')
       const blocks = findFencedCode(raw)
