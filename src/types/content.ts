@@ -1,6 +1,6 @@
 export type Highlights = Record<string, string>
 
-export type PageLayout = 'default' | 'posts-list' | 'projects'
+export type PageLayout = 'default' | 'posts-list' | 'projects' | 'media'
 export type PostType = 'blog' | 'note'
 export type ListType = PostType
 
@@ -8,6 +8,12 @@ export interface ProjectItem {
   name: string
   link: string
   desc?: string
+}
+
+export interface MediaItem {
+  title: string
+  author?: string
+  link?: string
 }
 
 export interface PageMeta {
@@ -22,6 +28,7 @@ export interface PageMeta {
   social?: boolean
   art?: 'dots' | 'plum' | 'both'
   projects?: Record<string, ProjectItem[]>
+  media?: Record<string, MediaItem[]>
   display?: string
   [key: string]: unknown
 }

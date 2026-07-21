@@ -3,6 +3,7 @@ import { usePageMeta } from '@/hooks/usePageMeta'
 import { usePageArt } from '@/hooks/usePageArt'
 import { ListPosts } from '@/components/ListPosts'
 import { ListProjects } from '@/components/ListProjects'
+import { ListMedia } from '@/components/ListMedia'
 import { Markdown } from '@/components/Markdown'
 import { SocialLinks } from '@/components/SocialLinks'
 import { SubNav } from '@/components/SubNav'
@@ -42,6 +43,16 @@ export function ContentPage({ entry }: ContentPageProps) {
           {content && <Markdown highlights={entry.highlights}>{content}</Markdown>}
           <ListProjects projects={meta.projects} />
         </div>
+      )}
+
+      {layout === 'media' && meta.media && (
+        <>
+          {content && <Markdown highlights={entry.highlights}>{content}</Markdown>}
+          <ListMedia media={meta.media} />
+          <p className="media-footnote">
+            These are ones I enjoyed, not exhaustive. And not necessarily recommendations.
+          </p>
+        </>
       )}
 
       {layout === 'default' && (

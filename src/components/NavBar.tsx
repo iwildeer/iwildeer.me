@@ -8,6 +8,7 @@ import type { RegisteredIcon } from '@/icons'
 const navItems: { label: string; href: string; icon: RegisteredIcon }[] = [
   { label: 'Blog', href: '/posts', icon: 'ri:article-line' },
   { label: 'Projects', href: '/projects', icon: 'ri:lightbulb-line' },
+  { label: 'Media', href: '/media', icon: 'ri:film-line' },
 ]
 
 function DarkToggle({ isDark, onToggle }: { isDark: boolean; onToggle: (event: React.MouseEvent<HTMLButtonElement>) => void }) {
