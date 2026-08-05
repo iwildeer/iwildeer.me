@@ -51,10 +51,23 @@ html.dark {
   height: 2px;
 }
 
+/* Keep root snapshots viewport-aligned so clip-path centers match click/button */
+::view-transition-group(root) {
+  animation: none;
+}
+
+::view-transition-image-pair(root) {
+  isolation: auto;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+  width: 100%;
+  height: 100%;
+  object-fit: none;
+  overflow: clip;
 }
 
 ::view-transition-old(root) {
@@ -63,14 +76,35 @@ html.dark {
 
 ::view-transition-new(root) {
   z-index: 9999;
+  animation: theme-circle-in 400ms ease-out both;
 }
 
 html.dark::view-transition-old(root) {
   z-index: 9999;
+  animation: theme-circle-out 400ms ease-out both;
 }
 
 html.dark::view-transition-new(root) {
   z-index: 1;
+  animation: none;
+}
+
+@keyframes theme-circle-in {
+  from {
+    clip-path: circle(0% at var(--vt-x) var(--vt-y));
+  }
+  to {
+    clip-path: circle(150% at var(--vt-x) var(--vt-y));
+  }
+}
+
+@keyframes theme-circle-out {
+  from {
+    clip-path: circle(150% at var(--vt-x) var(--vt-y));
+  }
+  to {
+    clip-path: circle(0% at var(--vt-x) var(--vt-y));
+  }
 }
 
 html {

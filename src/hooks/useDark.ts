@@ -23,6 +23,25 @@ function canUseViewTransition() {
     && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
+function resolveToggleOrigin(
+  event: Pick<MouseEvent, 'clientX' | 'clientY'> & {
+    currentTarget?: EventTarget | null
+  },
+) {
+  if (event.currentTarget instanceof Element) {
+    const rect = event.currentTarget.getBoundingClientRect()
+    return {
+      x: rect.left + rect.width / 2,
+      y: rect.top + rect.height / 2,
+    }
+  }
+
+  return {
+    x: event.clientX || innerWidth / 2,
+    y: event.clientY || innerHeight / 2,
+  }
+}
+
 /**
  * Circular expand/collapse dark mode toggle via View Transition API.
  * Inspired by antfu.me
@@ -31,45 +50,26 @@ function canUseViewTransition() {
  * @see https://github.com/vuejs/vitepress/pull/2347
  */
 function runViewTransitionToggle(
-  event: Pick<MouseEvent, 'clientX' | 'clientY'>,
-  nextDark: boolean,
+  event: Pick<MouseEvent, 'clientX' | 'clientY'> & {
+    currentTarget?: EventTarget | null
+  },
   apply: () => void,
 ) {
-  const x = event.clientX
-  const y = event.clientY
-  const endRadius = Math.hypot(
-    Math.max(x, innerWidth - x),
-    Math.max(y, innerHeight - y),
-  )
+  const root = document.documentElement
+  const { x, y } = resolveToggleOrigin(event)
+
+  root.style.setProperty('--vt-x', `${x}px`)
+  root.style.setProperty('--vt-y', `${y}px`)
 
   const transition = document.startViewTransition!(() => {
-    document.documentElement.dataset.themeTransition = 'true'
+    root.dataset.themeTransition = 'true'
     flushSync(apply)
   })
 
-  transition.ready.then(() => {
-    const clipPath = [
-      `circle(0px at ${x}px ${y}px)`,
-      `circle(${endRadius}px at ${x}px ${y}px)`,
-    ]
-
-    document.documentElement.animate(
-      {
-        clipPath: nextDark ? [...clipPath].reverse() : clipPath,
-      },
-      {
-        duration: 400,
-        easing: 'ease-out',
-        fill: 'forwards',
-        pseudoElement: nextDark
-          ? '::view-transition-old(root)'
-          : '::view-transition-new(root)',
-      },
-    )
-  })
-
   transition.finished.finally(() => {
-    delete document.documentElement.dataset.themeTransition
+    delete root.dataset.themeTransition
+    root.style.removeProperty('--vt-x')
+    root.style.removeProperty('--vt-y')
   })
 }
 
@@ -107,7 +107,9 @@ export function useDark() {
     return () => media.removeEventListener('change', update)
   }, [schema])
 
-  const toggleDark = useCallback((event: Pick<MouseEvent, 'clientX' | 'clientY'>) => {
+  const toggleDark = useCallback((event: Pick<MouseEvent, 'clientX' | 'clientY'> & {
+    currentTarget?: EventTarget | null
+  }) => {
     const nextDark = !isDark
 
     if (!canUseViewTransition()) {
@@ -115,11 +117,7 @@ export function useDark() {
       return
     }
 
-    runViewTransitionToggle(
-      event,
-      nextDark,
-      () => applyDarkMode(nextDark),
-    )
+    runViewTransitionToggle(event, () => applyDarkMode(nextDark))
   }, [isDark, applyDarkMode])
 
   return { isDark, toggleDark }
