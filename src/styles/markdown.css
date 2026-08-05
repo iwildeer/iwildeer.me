@@ -177,3 +177,7 @@ a.item:hover {
   border-bottom: none;
   opacity: 1;
 }
+
+.copyright img {
+  margin: 0;
+}

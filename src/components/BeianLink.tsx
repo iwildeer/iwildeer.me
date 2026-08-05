@@ -9,16 +9,18 @@ const MPS_TEXT = '豫公网安备41162302000109号'
 
 export function BeianLink() {
   return (
-    <span className="inline-flex flex-wrap items-center gap-x-1.5">
+    <span className="flex flex-col items-start leading-snug sm:inline-flex sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-1.5">
       <AppLink to={ICP_URL}>{ICP_TEXT}</AppLink>
-      <span aria-hidden="true">|</span>
+      <span className="hidden sm:inline" aria-hidden="true">
+        |
+      </span>
       <AppLink to={MPS_URL} className="inline-flex items-center gap-1">
         <img
           src="/beian.png"
-          alt={MPS_TEXT}
+          alt=""
           width={16}
           height={16}
-          className="m-0 size-4 shrink-0"
+          className="size-4 shrink-0"
         />
         {MPS_TEXT}
       </AppLink>
