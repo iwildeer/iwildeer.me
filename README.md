@@ -40,6 +40,7 @@ src/
 │   │   ├── posts.md      # Blog list (layout: posts-list, listType: blog)
 │   │   ├── notes.md      # Notes list (layout: posts-list, listType: note)
 │   │   ├── projects.md   # Projects (layout: projects)
+│   │   ├── media.md      # Media consumption (layout: media)
 │   │   └── 404.md        # Not found page
 │   ├── posts/            # Blog / note posts as Markdown
 │   └── links.ts          # Magic Link + social link config + resolveMagicLink
@@ -48,10 +49,12 @@ src/
 │   ├── NavBar.tsx
 │   ├── SubNav.tsx
 │   ├── Footer.tsx
+│   ├── BeianLink.tsx     # ICP / MPS beian links (footer)
 │   ├── ContentPage.tsx   # Renders a page entry by layout
 │   ├── PostPage.tsx      # Renders a single post
 │   ├── ListPosts.tsx
 │   ├── ListProjects.tsx
+│   ├── ListMedia.tsx
 │   ├── Markdown.tsx      # react-markdown wrapper + highlights provider
 │   ├── MarkdownCode.tsx  # pre-highlighted <code> renderer
 │   ├── MagicLink.tsx
@@ -113,7 +116,7 @@ description: Short summary
 date: 2026-03-01
 draft: false
 type: blog             # "blog" | "note", or composite "blog+note"
-layout: posts-list     # "default" | "posts-list" | "projects"
+layout: posts-list     # "default" | "posts-list" | "projects" | "media"
 listType: blog         # for posts-list: "blog" | "note"
 art: plum              # "dots" | "plum" | "both"
 duration: 5min
@@ -124,6 +127,10 @@ projects:              # for layout: projects
     - name: foo
       link: https://example.com/foo
       desc: A project
+media:                 # for layout: media
+  anime:
+    - title: Foo
+      author: Bar
 ---
 ```
 
@@ -132,10 +139,11 @@ projects:              # for layout: projects
 - **`default`** — renders the Markdown body. Shows `<h1>` from `title` unless `display: ""`. Renders social links when `social: true`.
 - **`posts-list`** — shows a `SubNav` and a grouped list of published posts of `listType`.
 - **`projects`** — renders grouped project cards from the `projects` frontmatter map.
+- **`media`** — renders grouped media lists (anime, movies, books, …) from the `media` frontmatter map.
 
 ### Posts vs Notes
 
-Posts live in `src/content/posts/*.md`. A post with `type: blog` shows on `/posts`; `type: note` shows on `/notes`. Composite types like `blog+note` appear on both. Posts with `draft: true` are hidden.
+Posts live in `src/content/posts/*.md`. A post with `type: blog` shows on `/posts`; `type: note` shows on `/notes`. Composite types like `blog+note` appear on both. Posts with `draft: true` are hidden from lists and excluded from production routes — they remain previewable at `/posts/<slug>` in `pnpm dev` but are stripped from the build.
 
 ### Magic Links
 

@@ -16,9 +16,11 @@ pnpm dev                  # start Vite dev server
 pnpm build                # type-check (tsc -b) then production build → dist/
 pnpm preview              # preview the production build
 pnpm lint                 # ESLint (flat config: eslint.config.js)
+pnpm test                 # Vitest in watch mode
+pnpm test:run             # Vitest once
 ```
 
-**No test framework is configured.** There is no `test` script and no test files. If you add tests, propose a framework and add a `test` script first; do not assume one exists.
+Tests are **Vitest** (`vitest.config.ts`, with the `@` alias and node environment). Test files live in `__tests__/` folders next to the code (`src/lib/__tests__/`, `src/components/__tests__/`) and cover pure logic — no DOM snapshot tests.
 
 ### Type checking
 
@@ -101,7 +103,9 @@ Pages and posts are **not** imported manually in `AppRoutes.tsx`. `src/lib/conte
 - Add a blog post: drop a `.md` in `content/posts/` (→ `/posts/<slug>`, slug = filename).
 - `content/pages/404.md` feeds the `NotFoundPage` content and does **not** become a route.
 
-**Frontmatter** (YAML, parsed by `yaml`): `title`, `description` (SEO), `date`, `type` (`blog` | `note`), `duration`, `draft`, `layout` (`posts-list` | `projects` | default), `listType`, `social`, `art` (`dots` | `plum` | `both`), `projects`. New fields go in `types/content.ts` `PageMeta`.
+**Frontmatter** (YAML, parsed by `yaml`): `title`, `description` (SEO), `date`, `type` (`blog` | `note`), `duration`, `draft`, `layout` (`posts-list` | `projects` | `media` | default), `listType`, `social`, `art` (`dots` | `plum` | `both`), `display` (`""` hides the `<h1>`), `projects`, `media`. New fields go in `types/content.ts` `PageMeta`.
+
+**Drafts:** posts with `draft: true` are excluded from lists (`getPublishedPosts`) and from production routes (`getRoutablePosts` filters them when `import.meta.env.PROD`); they stay previewable in `pnpm dev`.
 
 **Magic Links:** `{Name}` tags in Markdown are expanded by `expandMagicLinks()` to `magic:<url>` links resolved against `src/content/links.ts` (`magicLinks`). Code spans / inline code are protected from expansion.
 
@@ -113,7 +117,7 @@ Pages and posts are **not** imported manually in `AppRoutes.tsx`. `src/lib/conte
 
 ### Markdown Rendering
 
-`react-markdown` + `remark-gfm`, code highlighting via Shiki (`lib/shiki.ts`, `components/ShikiCodeBlock.tsx`). Custom renderers live in `lib/markdownComponents.tsx` / `lib/markdownPlugins.ts`. `ContentPage` renders `SocialLinks` at the end when `social: true` is set in frontmatter.
+`react-markdown` + `remark-gfm`. Code blocks are highlighted **at build time** by `vite-plugin-shiki.ts` (root, runs on `?md-source` modules) — the plugin replaces fenced blocks with ```` ```shiki:<id> ```` placeholders and exposes `{ source, highlights }`; `components/MarkdownCode.tsx` looks the pre-rendered HTML up via the highlights context. Custom renderers live in `lib/markdownComponents.tsx` / `lib/markdownPlugins.ts`. `ContentPage` renders `SocialLinks` at the end when `social: true` is set in frontmatter.
 
 ## Deployment
 
