@@ -4,7 +4,7 @@ import App from '@/App'
 import { ContentPage } from '@/components/ContentPage'
 import { NotFoundPage } from '@/components/NotFoundPage'
 import { PostPage } from '@/components/PostPage'
-import { pageEntries, postEntries } from '@/lib/content'
+import { getRoutablePosts, pageEntries } from '@/lib/content'
 
 const children: RouteObject[] = [
   ...pageEntries.map((entry): RouteObject => {
@@ -19,7 +19,7 @@ const children: RouteObject[] = [
       element: <ContentPage entry={entry} />,
     }
   }),
-  ...postEntries.map(entry => ({
+  ...getRoutablePosts().map(entry => ({
     path: `posts/${entry.slug}`,
     element: <PostPage entry={entry} />,
   })),

@@ -1,11 +1,12 @@
-import { parse as parseYaml } from 'yaml'
+import { parseMarkdown } from './frontmatter'
 import type {
   Highlights,
   ListType,
   PageEntry,
-  PageMeta,
   PostEntry,
 } from '@/types/content'
+
+export { parseMarkdown } from './frontmatter'
 
 interface MdModule {
   source: string
@@ -24,24 +25,6 @@ const postModules = import.meta.glob<MdModule>(
 function fileName(path: string) {
   const match = path.match(/\/([^/]+)\.md$/)
   return match?.[1] ?? ''
-}
-
-const FRONTMATTER_RE = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/
-
-export function parseMarkdown(raw: string) {
-  const match = FRONTMATTER_RE.exec(raw)
-  if (!match) {
-    return {
-      meta: {} as PageMeta,
-      body: raw.trim(),
-    }
-  }
-
-  const yamlStr = match[1].trim()
-  const body = raw.slice(match[0].length).trim()
-  const meta = (parseYaml(yamlStr) ?? {}) as PageMeta
-
-  return { meta, body }
 }
 
 function buildPageEntries(): PageEntry[] {
@@ -98,6 +81,13 @@ export function getPublishedPosts(type: ListType = 'blog') {
 
 export function getPostBySlug(slug: string) {
   return postEntries.find(post => post.slug === slug)
+}
+
+export function getRoutablePosts() {
+  // Drafts stay routable in dev for preview, but never ship in production.
+  return import.meta.env.PROD
+    ? postEntries.filter(post => !post.meta.draft)
+    : postEntries
 }
 
 const PROTECTED_MARKDOWN_RE = /```[\s\S]*?```|`[^`\n]+`/g

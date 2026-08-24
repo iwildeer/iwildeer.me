@@ -3,15 +3,18 @@ import path from 'node:path'
 import type { Plugin } from 'vite'
 import { codeToHtml } from 'shiki'
 import { findFencedCode } from './src/lib/fence.ts'
+import { isDraftMarkdown } from './src/lib/frontmatter.ts'
 import { shikiThemes } from './src/lib/shiki.ts'
 
 export function shikiHighlightPlugin(): Plugin {
   let root = process.cwd()
+  let isBuild = false
   return {
     name: 'shiki-highlight',
     enforce: 'pre',
     configResolved(config) {
       root = config.root
+      isBuild = config.command === 'build'
     },
     async load(id) {
       const queryIndex = id.indexOf('?')
@@ -27,6 +30,17 @@ export function shikiHighlightPlugin(): Plugin {
         file = path.resolve(root, file.replace(/^\//, ''))
 
       const raw = readFileSync(file, 'utf8')
+
+      // Drafts stay previewable in dev, but their content is stubbed out of
+      // production bundles — only the draft flag survives, so lists and
+      // routes can still filter them after the content is gone.
+      if (isBuild && isDraftMarkdown(raw)) {
+        return {
+          code: `export const source = ${JSON.stringify('---\ndraft: true\n---\n')}\nexport const highlights = {}\n`,
+          map: null,
+        }
+      }
+
       const blocks = findFencedCode(raw)
 
       const highlights: Record<string, string> = {}

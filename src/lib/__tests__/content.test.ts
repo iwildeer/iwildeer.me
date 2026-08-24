@@ -1,7 +1,8 @@
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   expandMagicLinks,
   getPublishedPosts,
+  getRoutablePosts,
   parseMarkdown,
   postEntries,
 } from '@/lib/content'
@@ -79,5 +80,20 @@ describe('posts', () => {
 
   it('never returns drafts', () => {
     expect(getPublishedPosts('blog').every(p => !p.meta.draft)).toBe(true)
+  })
+})
+
+describe('getRoutablePosts', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs()
+  })
+
+  it('excludes drafts from production routes', () => {
+    vi.stubEnv('PROD', true)
+    expect(getRoutablePosts().every(p => !p.meta.draft)).toBe(true)
+  })
+
+  it('keeps every post routable in dev for preview', () => {
+    expect(getRoutablePosts()).toHaveLength(postEntries.length)
   })
 })
