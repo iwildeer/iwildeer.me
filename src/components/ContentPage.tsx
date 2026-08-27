@@ -28,7 +28,20 @@ export function ContentPage({ entry }: ContentPageProps) {
 
   return (
     <article className="prose m-auto slide-enter-content">
-      {showTitle && <h1>{meta.display ?? meta.title}</h1>}
+      {showTitle && (
+        <h1 className={entry.isIndex ? 'flex items-center gap-[0.35em]' : undefined}>
+          {entry.isIndex && (
+            <img
+              src="/avatar.jpg"
+              alt=""
+              width={48}
+              height={48}
+              className="m-0! size-[1.05em] shrink-0 rounded-full object-cover"
+            />
+          )}
+          {meta.display ?? meta.title}
+        </h1>
+      )}
 
       {layout === 'posts-list' && (
         <>
