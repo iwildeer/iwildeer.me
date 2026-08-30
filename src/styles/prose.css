@@ -224,6 +224,11 @@
   margin-top: 2em;
   margin-bottom: 2em;
 }
+.prose .photos figure {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
 .prose .photos img {
   margin-top: 0;
   margin-bottom: 0;

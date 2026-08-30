@@ -8,6 +8,7 @@ export interface ProjectItem {
   name: string
   link: string
   desc?: string
+  icon?: string
 }
 
 export interface MediaItem {

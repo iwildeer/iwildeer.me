@@ -45,11 +45,13 @@ src/
 ├── content/
 │   ├── pages/*.md          # static pages (auto-routed, index.md → /)
 │   ├── posts/*.md          # blog posts (→ /posts/:slug)
+│   ├── media/*.ts          # media lists (01-anime.ts → 'anime' category, prefix sets order)
+│   ├── photos/             # photo files + optional <name>.json caption sidecars
 │   └── links.ts            # magic links + social link config
 ├── context/                # React contexts
 ├── hooks/                  # useDark, usePageMeta, usePageArt
 ├── icons/index.ts          # Iconify icon registry
-├── lib/                    # content.ts (glob/parse/route data), markdownComponents, etc.
+├── lib/                    # content.ts (glob/route data), frontmatter.ts, mediaGroups.ts, photos.ts, markdownComponents, etc.
 ├── styles/                 # prose.css, markdown.css
 └── types/content.ts        # PageMeta, PageEntry, PostEntry, etc.
 ```
@@ -103,11 +105,15 @@ Pages and posts are **not** imported manually in `AppRoutes.tsx`. `src/lib/conte
 - Add a blog post: drop a `.md` in `content/posts/` (→ `/posts/<slug>`, slug = filename).
 - `content/pages/404.md` feeds the `NotFoundPage` content and does **not** become a route.
 
-**Frontmatter** (YAML, parsed by `yaml`): `title`, `description` (SEO), `date`, `type` (`blog` | `note`), `duration`, `draft`, `layout` (`posts-list` | `projects` | `media` | default), `listType`, `social`, `art` (`dots` | `plum` | `both`), `display` (`""` hides the `<h1>`), `projects`, `media`. New fields go in `types/content.ts` `PageMeta`.
+**Frontmatter** (YAML, parsed by `yaml` in `lib/frontmatter.ts`): `title`, `description` (SEO), `date`, `type` (`blog` | `note`), `duration`, `draft`, `layout` (`posts-list` | `projects` | `media` | `photos` | default), `listType`, `social`, `art` (`dots` | `plum` | `both`), `display` (`""` hides the `<h1>`), `projects`. New fields go in `types/content.ts` `PageMeta`.
+
+**Media lists:** `layout: media` pages render categories loaded by `lib/mediaGroups.ts` from `src/content/media/*.ts` — each module exports `items: MediaItem[]`; the filename maps to the category (`01-anime.ts` → the `anime` tab, `NN-` prefix stripped and used for ordering). An inline `media:` frontmatter block overrides the globbed groups per key.
+
+**Photos:** `layout: photos` pages render the stream loaded by `lib/photos.ts` from `src/content/photos/` (jpg/jpeg/png/webp/gif/svg). An optional sidecar `<name>.json` (`{ text }`) adds a caption. Files sort newest-first by filename (numeric compare), so name them with timestamps. Every photos page shares the same stream.
 
 **Drafts:** posts with `draft: true` are excluded from lists (`getPublishedPosts`) and from production routes (`getRoutablePosts` filters them when `import.meta.env.PROD`); they stay previewable in `pnpm dev`.
 
-**Magic Links:** `{Name}` tags in Markdown are expanded by `expandMagicLinks()` to `magic:<url>` links resolved against `src/content/links.ts` (`magicLinks`). Code spans / inline code are protected from expansion.
+**Magic Links:** `{Name}` tags in Markdown are expanded by `expandMagicLinks()` to `magic:<url>` links resolved against `src/content/links.ts` (`magicLinks`). Entries are either a URL string or `{ link, imageUrl? }` — `imageUrl` (tech logos live in `public/logos/`) renders a small logo inside the link pill. Code spans / inline code are protected from expansion.
 
 ### Links & Icons
 
@@ -117,7 +123,7 @@ Pages and posts are **not** imported manually in `AppRoutes.tsx`. `src/lib/conte
 
 ### Markdown Rendering
 
-`react-markdown` + `remark-gfm`. Code blocks are highlighted **at build time** by `vite-plugin-shiki.ts` (root, runs on `?md-source` modules) — the plugin replaces fenced blocks with ```` ```shiki:<id> ```` placeholders and exposes `{ source, highlights }`; `components/MarkdownCode.tsx` looks the pre-rendered HTML up via the highlights context. Custom renderers live in `lib/markdownComponents.tsx` / `lib/markdownPlugins.ts`. `ContentPage` renders `SocialLinks` at the end when `social: true` is set in frontmatter.
+`react-markdown` + `remark-gfm`. Code blocks are highlighted **at build time** by `vite-plugin-shiki.ts` (root, runs on `?md-source` modules) — the plugin replaces fenced blocks with ```` ```shiki:<id> ```` placeholders and exposes `{ source, highlights }`; `components/MarkdownCode.tsx` looks the pre-rendered HTML up via the highlights context. Custom renderers live in `lib/markdownComponents.tsx` / `lib/markdownPlugins.ts`. `ContentPage` renders `SocialLinks` when `social: true` is set in frontmatter — placed at a `::social::` marker in the body if present, otherwise appended at the end.
 
 ## Deployment
 

@@ -62,7 +62,7 @@ export function ContentPage({ entry }: ContentPageProps) {
 
   return (
     <article className="prose m-auto slide-enter-content">
-      {showTitle && (
+      {showTitle && layout !== 'projects' && (
         <h1 className={entry.isIndex ? 'flex items-center gap-[0.35em]' : undefined}>
           {entry.isIndex && (
             <img
@@ -86,10 +86,15 @@ export function ContentPage({ entry }: ContentPageProps) {
       )}
 
       {layout === 'projects' && meta.projects && (
-        <div className="project-list-wrap">
-          {content && <Markdown highlights={entry.highlights}>{content}</Markdown>}
-          <ListProjects projects={meta.projects} />
-        </div>
+        <>
+          <header className="project-header">
+            {showTitle && <h1>{meta.display ?? meta.title}</h1>}
+            {content && <Markdown highlights={entry.highlights}>{content}</Markdown>}
+          </header>
+          <div className="project-list-wrap">
+            <ListProjects projects={meta.projects} />
+          </div>
+        </>
       )}
 
       {layout === 'media' && meta.media && (

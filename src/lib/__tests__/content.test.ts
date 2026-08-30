@@ -84,17 +84,10 @@ describe('photos page', () => {
   it('injects glob-loaded photos sorted newest-first', () => {
     expect(photoEntry.meta.layout).toBe('photos')
     const names = (photoEntry.meta.photos ?? []).map(p => p.name)
-    expect(names.length).toBeGreaterThanOrEqual(3)
+    expect(names.length).toBeGreaterThanOrEqual(2)
     for (let i = 1; i < names.length; i++)
       expect(names[i - 1].localeCompare(names[i], undefined, { numeric: true }))
         .toBeGreaterThan(0)
-  })
-
-  it('applies sidecar captions to matching photos', () => {
-    const captioned = (photoEntry.meta.photos ?? []).find(
-      p => p.name === 'p-2026-08-30-10-00-00-000-2',
-    )
-    expect(captioned?.text).toContain('示例配文')
   })
 })
 

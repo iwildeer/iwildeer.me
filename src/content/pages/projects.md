@@ -6,15 +6,10 @@ art: dots
 projects:
   Personal:
     - name: iwildeer
-      link: https://github.com/iwildeer/iwildeer
+      link: https://github.com/iwildeer/iwildeer.me
       desc: Personal website inspired by antfu.me
-  Open Source:
-    - name: React
-      link: https://github.com/facebook/react
-      desc: A JavaScript library for building user interfaces
-    - name: Vite
-      link: https://github.com/vitejs/vite
-      desc: Next generation frontend tooling
+      icon: logo
+  Open Source: []
 ---
 
-Projects that I created or am maintaining.
+*Projects that I created or am maintaining.*
