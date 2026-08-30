@@ -4,11 +4,18 @@ import { resolveMagicLink, socialLinks } from '@/content/links'
 
 describe('resolveMagicLink', () => {
   it('resolves string entries to { link }', () => {
-    expect(resolveMagicLink('React')).toEqual({ link: 'https://github.com/facebook/react' })
+    expect(resolveMagicLink('Open Source')).toEqual({ link: '/projects' })
   })
 
   it('resolves object entries and keeps optional fields', () => {
-    expect(resolveMagicLink('Iwildeer')).toEqual({ link: 'https://github.com/iwildeer/iwildeer' })
+    expect(resolveMagicLink('React')).toEqual({
+      link: 'https://github.com/facebook/react',
+      imageUrl: '/logos/react.svg',
+    })
+    expect(resolveMagicLink('Iwildeer')).toEqual({
+      link: 'https://github.com/iwildeer/iwildeer.me',
+      imageUrl: '/avatar.jpg',
+    })
   })
 
   it('falls back to { link: "#" } for unknown names', () => {

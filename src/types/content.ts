@@ -1,6 +1,6 @@
 export type Highlights = Record<string, string>
 
-export type PageLayout = 'default' | 'posts-list' | 'projects' | 'media'
+export type PageLayout = 'default' | 'posts-list' | 'projects' | 'media' | 'photos'
 export type PostType = 'blog' | 'note'
 export type ListType = PostType
 
@@ -16,6 +16,16 @@ export interface MediaItem {
   link?: string
 }
 
+// Sidecar `<name>.json` next to a photo file in content/photos/.
+export interface PhotoMeta {
+  text?: string
+}
+
+export interface PhotoItem extends PhotoMeta {
+  name: string
+  url: string
+}
+
 export interface PageMeta {
   title?: string
   description?: string
@@ -29,6 +39,7 @@ export interface PageMeta {
   art?: 'dots' | 'plum' | 'both'
   projects?: Record<string, ProjectItem[]>
   media?: Record<string, MediaItem[]>
+  photos?: PhotoItem[]
   display?: string
   [key: string]: unknown
 }

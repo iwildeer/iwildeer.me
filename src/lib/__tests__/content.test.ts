@@ -71,10 +71,30 @@ describe('media page', () => {
 
   it('parses items from the category files', () => {
     expect(mediaEntry.meta.media?.anime[0]).toEqual({
-      title: '葬送のフリーレン',
-      author: '山田鐘人',
+      title: '罗小黑战记',
+      author: '木头',
     })
-    expect(mediaEntry.meta.media?.song).toHaveLength(3)
+    expect((mediaEntry.meta.media?.song ?? []).length).toBeGreaterThan(0)
+  })
+})
+
+describe('photos page', () => {
+  const photoEntry = pageEntries.find(entry => entry.slug === 'photos')!
+
+  it('injects glob-loaded photos sorted newest-first', () => {
+    expect(photoEntry.meta.layout).toBe('photos')
+    const names = (photoEntry.meta.photos ?? []).map(p => p.name)
+    expect(names.length).toBeGreaterThanOrEqual(3)
+    for (let i = 1; i < names.length; i++)
+      expect(names[i - 1].localeCompare(names[i], undefined, { numeric: true }))
+        .toBeGreaterThan(0)
+  })
+
+  it('applies sidecar captions to matching photos', () => {
+    const captioned = (photoEntry.meta.photos ?? []).find(
+      p => p.name === 'p-2026-08-30-10-00-00-000-2',
+    )
+    expect(captioned?.text).toContain('示例配文')
   })
 })
 

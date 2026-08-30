@@ -1,4 +1,5 @@
 import { renderToStaticMarkup } from 'react-dom/server'
+import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
 import { Markdown } from '@/components/Markdown'
 
@@ -17,5 +18,18 @@ describe('Markdown highlight integration', () => {
     const html = renderToStaticMarkup(<Markdown highlights={{} as Record<string, string>}>{md}</Markdown>)
     expect(html).toContain('<code')
     expect(html).toContain('const x = 1')
+  })
+})
+
+describe('Markdown magic links', () => {
+  it('keeps the magic: protocol and renders a capsule', () => {
+    const html = renderToStaticMarkup(
+      <MemoryRouter>
+        <Markdown>{'[React](magic:React)'}</Markdown>
+      </MemoryRouter>,
+    )
+    expect(html).toContain('markdown-magic-link')
+    expect(html).toContain('/logos/react.svg')
+    expect(html).toContain('React')
   })
 })

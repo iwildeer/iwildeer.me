@@ -1,5 +1,6 @@
 import { parseMarkdown } from './frontmatter'
 import { mediaGroups } from './mediaGroups'
+import { photos } from './photos'
 import type {
   Highlights,
   ListType,
@@ -40,6 +41,9 @@ function buildPageEntries(): PageEntry[] {
       // an inline `media:` frontmatter block would override them per key.
       if (meta.layout === 'media')
         meta.media = { ...mediaGroups, ...meta.media }
+      // Every photos-layout page shares the same glob-loaded photo stream.
+      if (meta.layout === 'photos')
+        meta.photos = photos
       return {
         slug: name === 'index' ? '' : name,
         source: mod.source,

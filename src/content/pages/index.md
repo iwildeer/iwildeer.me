@@ -18,6 +18,6 @@ I [write blog posts](/posts) here to share dev notes and life snippets. Occasion
 
 Find me on
 
----
+::social::
 
-Or mail me at hi@iwildeer.me
+Or mail me at `3089326386@qq.com`

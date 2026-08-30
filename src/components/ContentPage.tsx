@@ -4,10 +4,44 @@ import { usePageArt } from '@/hooks/usePageArt'
 import { ListPosts } from '@/components/ListPosts'
 import { ListProjects } from '@/components/ListProjects'
 import { ListMedia } from '@/components/ListMedia'
+import { ListPhotos } from '@/components/ListPhotos'
 import { Markdown } from '@/components/Markdown'
 import { SocialLinks } from '@/components/SocialLinks'
 import { SubNav } from '@/components/SubNav'
-import type { ListType, PageEntry } from '@/types/content'
+import type { Highlights, ListType, PageEntry } from '@/types/content'
+
+const SOCIAL_MARKER = '::social::'
+
+function MarkdownWithSocial({
+  content,
+  highlights,
+}: {
+  content: string
+  highlights: Highlights
+}) {
+  const markerAt = content.indexOf(SOCIAL_MARKER)
+  if (markerAt === -1) {
+    return (
+      <>
+        <Markdown highlights={highlights}>{content}</Markdown>
+        <SocialLinks />
+      </>
+    )
+  }
+
+  const before = content.slice(0, markerAt)
+  const after = content.slice(markerAt + SOCIAL_MARKER.length)
+
+  return (
+    <>
+      <Markdown highlights={highlights}>{before}</Markdown>
+      <SocialLinks />
+      {after.trim() !== '' && (
+        <Markdown highlights={highlights}>{after}</Markdown>
+      )}
+    </>
+  )
+}
 
 interface ContentPageProps {
   entry: PageEntry
@@ -68,10 +102,25 @@ export function ContentPage({ entry }: ContentPageProps) {
         </>
       )}
 
+      {layout === 'photos' && meta.photos && (
+        <>
+          {content && <Markdown highlights={entry.highlights}>{content}</Markdown>}
+          <ListPhotos photos={meta.photos} />
+          <p className="photo-footnote">
+            Photos of my daily life, newest first.
+          </p>
+        </>
+      )}
+
       {layout === 'default' && (
         <>
-          <Markdown highlights={entry.highlights}>{content}</Markdown>
-          {meta.social && <SocialLinks />}
+          {meta.social
+            ? (
+                <MarkdownWithSocial content={content} highlights={entry.highlights} />
+              )
+            : (
+                <Markdown highlights={entry.highlights}>{content}</Markdown>
+              )}
         </>
       )}
     </article>

@@ -8,9 +8,9 @@ interface MagicLinkProps {
 
 export function MagicLink({ name, children }: MagicLinkProps) {
   const { link, imageUrl } = resolveMagicLink(name)
-  const isExternal = link.startsWith('http')
-  const content = (
-    <>
+
+  return (
+    <AppLink to={link} className="markdown-magic-link">
       {imageUrl && (
         <span
           className="markdown-magic-link-image"
@@ -18,25 +18,6 @@ export function MagicLink({ name, children }: MagicLinkProps) {
         />
       )}
       {children}
-    </>
-  )
-
-  if (isExternal) {
-    return (
-      <a
-        href={link}
-        className="markdown-magic-link"
-        target="_blank"
-        rel="noreferrer"
-      >
-        {content}
-      </a>
-    )
-  }
-
-  return (
-    <AppLink to={link} className="markdown-magic-link">
-      {content}
     </AppLink>
   )
 }

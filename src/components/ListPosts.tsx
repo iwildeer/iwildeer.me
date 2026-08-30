@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import { Fragment, type CSSProperties } from 'react'
 import { AppLink } from '@/components/AppLink'
 import { getPublishedPosts } from '@/lib/content'
 import { formatDate } from '@/lib/formatDate'
@@ -26,12 +26,12 @@ export function ListPosts({ type = 'blog' }: ListPostsProps) {
   }
 
   return (
-    <ul>
+    <div className="post-list">
       {posts.map((post, idx) => {
         const showYear = post.meta.date && !isSameGroup(post.meta.date, posts[idx - 1]?.meta.date)
 
         return (
-          <li key={post.slug}>
+          <Fragment key={post.slug}>
             {showYear && post.meta.date && (
               <div
                 className="post-list-year-wrap slide-enter"
@@ -49,16 +49,18 @@ export function ListPosts({ type = 'blog' }: ListPostsProps) {
                   <div className="post-list-title">{post.meta.title ?? post.slug}</div>
                   {post.meta.date && (
                     <span className="post-list-date">
-                      {formatDate(post.meta.date)}
-                      {post.meta.duration && ` · ${post.meta.duration}`}
+                      {formatDate(post.meta.date, true)}
                     </span>
+                  )}
+                  {post.meta.duration && (
+                    <span className="post-list-duration">· {post.meta.duration}</span>
                   )}
                 </div>
               </AppLink>
             </div>
-          </li>
+          </Fragment>
         )
       })}
-    </ul>
+    </div>
   )
 }

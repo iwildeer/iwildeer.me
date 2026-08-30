@@ -7,13 +7,28 @@ export interface MagicLinkMeta {
 }
 
 export const magicLinks: Record<string, MagicLinkMeta | string> = {
-  React: 'https://github.com/facebook/react',
-  TypeScript: 'https://github.com/microsoft/TypeScript',
-  Vite: 'https://github.com/vitejs/vite',
-  Tailwind: 'https://github.com/tailwindlabs/tailwindcss',
-  Iwildeer: { link: 'https://github.com/iwildeer/iwildeer' },
+  React: {
+    link: 'https://github.com/facebook/react',
+    imageUrl: '/logos/react.svg',
+  },
+  TypeScript: {
+    link: 'https://github.com/microsoft/TypeScript',
+    imageUrl: '/logos/typescript.svg',
+  },
+  Vite: {
+    link: 'https://github.com/vitejs/vite',
+    imageUrl: '/logos/vite.svg',
+  },
+  Tailwind: {
+    link: 'https://github.com/tailwindlabs/tailwindcss',
+    imageUrl: '/logos/tailwindcss.svg',
+  },
+  Iwildeer: {
+    link: 'https://github.com/iwildeer/iwildeer.me',
+    imageUrl: '/avatar.jpg',
+  },
   'Web Dev': { link: '/projects' },
-  'Open Source': { link: '/projects' },
+  'Open Source': '/projects',
 }
 
 export interface SocialLink {
@@ -24,7 +39,7 @@ export interface SocialLink {
 
 export const socialLinks: SocialLink[] = [
   { label: 'GitHub', href: 'https://github.com/iwildeer', icon: 'ri:github-fill' },
-  { label: 'Mail', href: 'mailto:hi@iwildeer.me', icon: 'ri:mail-line' },
+  { label: '抖音', href: 'https://v.douyin.com/BNf7DNqCieI/', icon: 'ri:tiktok-fill' },
 ]
 
 export function resolveMagicLink(name: string): MagicLinkMeta {
