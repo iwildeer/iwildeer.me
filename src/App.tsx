@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { Footer } from '@/components/Footer'
 import { ImageViewer } from '@/components/ImageViewer'
 import { NavBar } from '@/components/NavBar'
@@ -7,6 +7,8 @@ import { SiteBackground } from '@/components/SiteBackground'
 import { PageArtProvider } from '@/components/PageArtProvider'
 
 function App() {
+  const location = useLocation()
+
   return (
     <PageArtProvider>
       <NProgressHandler />
@@ -18,7 +20,8 @@ function App() {
           <Footer />
         </main>
       </div>
-      <ImageViewer />
+      {/* key: navigating closes an open lightbox instead of orphaning it */}
+      <ImageViewer key={location.pathname} />
     </PageArtProvider>
   )
 }

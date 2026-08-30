@@ -5,11 +5,14 @@ type Props = Omit<IconProps, 'icon'> & {
   icon: RegisteredIcon
 }
 
+const DEFAULT_CLASS = 'inline-block h-[1.2em] w-[1.2em] align-text-bottom'
+
 export function Icon({ icon, className, ...props }: Props) {
   return (
     <IconifyIcon
       icon={iconRegistry[icon]}
-      className={className ?? 'inline-block h-[1.2em] w-[1.2em] align-text-bottom'}
+      // Merge so callers extend the default sizing instead of replacing it.
+      className={className ? `${DEFAULT_CLASS} ${className}` : DEFAULT_CLASS}
       aria-hidden={props['aria-hidden'] ?? true}
       {...props}
     />

@@ -70,7 +70,7 @@ export function ContentPage({ entry }: ContentPageProps) {
               alt=""
               width={48}
               height={48}
-              className="m-0! size-[1.05em] shrink-0 rounded-full object-cover"
+              className="no-preview m-0! size-[1.05em] shrink-0 rounded-full object-cover"
             />
           )}
           {meta.display ?? meta.title}

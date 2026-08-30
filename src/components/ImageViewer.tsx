@@ -1,16 +1,17 @@
 import { useCallback, useEffect, useState } from 'react'
 
-function captionOf(img: HTMLImageElement) {
-  if (img.alt)
-    return img.alt
-  const caption = img.closest('figure')?.querySelector('figcaption')?.textContent
-  return caption?.trim() ?? ''
-}
+// The slide-enter entrance animation translates content by up to 10px over
+// ~1s (≈2px per 50ms), while scroll momentum moves images by tens of px —
+// treat small deltas as "not moving" so clicks during the entrance animation
+// still open the viewer.
+const MOVE_TOLERANCE_PX = 6
 
 /**
  * Global lightbox for photos and article images: click an image inside
  * `.prose` or `.photos` to view it full-size. Arrow keys move between
  * images tagged with `data-photo-index` (the photos grid), Escape closes.
+ * App mounts this with `key={location.pathname}` so a route change remounts
+ * it and drops the stored element instead of leaving a zombie overlay.
  * Ported from antfu.me's App.vue image viewer.
  * @see https://github.com/antfu/antfu.me
  */
@@ -24,6 +25,18 @@ export function ImageViewer() {
   const close = useCallback(() => {
     setImage(null)
   }, [])
+
+  // Lock background scroll while the viewer is open.
+  useEffect(() => {
+    if (!image)
+      return
+
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previous
+    }
+  }, [image])
 
   useEffect(() => {
     async function handleClick(event: MouseEvent) {
@@ -39,11 +52,11 @@ export function ImageViewer() {
         return
 
       // Do not open the image while it is moving; mainly to avoid
-      // conflicting with layout shifts on mobile.
+      // conflicting with scrolling on mobile.
       const pos = target.getBoundingClientRect()
       await new Promise(resolve => setTimeout(resolve, 50))
       const newPos = target.getBoundingClientRect()
-      if (pos.left !== newPos.left || pos.top !== newPos.top)
+      if (Math.abs(pos.left - newPos.left) > MOVE_TOLERANCE_PX || Math.abs(pos.top - newPos.top) > MOVE_TOLERANCE_PX)
         return
 
       open(target)
@@ -92,13 +105,11 @@ export function ImageViewer() {
   if (!image)
     return null
 
-  const caption = captionOf(image)
-
   return (
     <div className="image-viewer" role="dialog" aria-modal="true" onClick={close}>
       <div className="image-viewer-backdrop" />
       <img src={image.currentSrc || image.src} alt={image.alt} />
-      {caption && <div className="image-viewer-caption">{caption}</div>}
+      {image.alt && <div className="image-viewer-caption">{image.alt}</div>}
     </div>
   )
 }

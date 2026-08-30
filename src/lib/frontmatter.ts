@@ -9,17 +9,32 @@ const FRONTMATTER_RE = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/
 
 // Fields understood by PageMeta. Anything else in frontmatter is likely a
 // typo and is surfaced as a dev-only warning instead of failing silently.
-const KNOWN_META_KEYS = new Set([
-  'title', 'description', 'date', 'draft', 'layout', 'listType', 'type',
-  'duration', 'social', 'art', 'projects', 'media', 'photos', 'display',
-])
+// `satisfies` keeps this list locked to `keyof PageMeta` at compile time:
+// adding a field to PageMeta without listing it here (or vice versa) fails
+// the build instead of producing false-positive typo warnings.
+const KNOWN_META_KEYS = {
+  title: true,
+  description: true,
+  date: true,
+  draft: true,
+  layout: true,
+  listType: true,
+  type: true,
+  duration: true,
+  social: true,
+  art: true,
+  projects: true,
+  media: true,
+  photos: true,
+  display: true,
+} satisfies Record<keyof PageMeta, true>
 
-// `import.meta.env` is typed by vite/client in the app tsconfig; this file is
-// also type-checked under tsconfig.node.json (no vite types), hence the cast.
-const isDev = (import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV === true
+// vite/client types import.meta.env in both tsconfigs (tsconfig.node.json
+// lists it in `types`); `?.` keeps the esbuild-bundled config context safe.
+const isDev = import.meta.env?.DEV === true
 
 export function getUnknownMetaKeys(meta: PageMeta): string[] {
-  return Object.keys(meta).filter(key => !KNOWN_META_KEYS.has(key))
+  return Object.keys(meta).filter(key => !(key in KNOWN_META_KEYS))
 }
 
 export function parseMarkdown(raw: string) {

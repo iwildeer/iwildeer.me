@@ -7,7 +7,14 @@ type GalleryView = 'cover' | 'contain'
 const VIEW_STORAGE_KEY = 'photos-gallery-view'
 
 function readStoredView(): GalleryView {
-  return localStorage.getItem(VIEW_STORAGE_KEY) === 'contain' ? 'contain' : 'cover'
+  try {
+    return localStorage.getItem(VIEW_STORAGE_KEY) === 'contain' ? 'contain' : 'cover'
+  }
+  catch {
+    // Storage can throw in cookie-blocked / sandboxed contexts; the app has
+    // no error boundary, so an unguarded read here would blank the whole site.
+    return 'cover'
+  }
 }
 
 interface ListPhotosProps {
@@ -26,11 +33,14 @@ export function ListPhotos({ photos }: ListPhotosProps) {
     return <div className="post-list-empty">{'{ nothing here yet }'}</div>
 
   function toggleView() {
-    setView((current) => {
-      const next: GalleryView = current === 'cover' ? 'contain' : 'cover'
+    const next: GalleryView = view === 'cover' ? 'contain' : 'cover'
+    setView(next)
+    try {
       localStorage.setItem(VIEW_STORAGE_KEY, next)
-      return next
-    })
+    }
+    catch {
+      // Persistence is best-effort; the in-memory view still toggles.
+    }
   }
 
   return (
