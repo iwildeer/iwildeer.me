@@ -1,34 +1,15 @@
 ---
-title: Hello World
-description: First blog post on iwildeer
-date: 2026-03-01
+title: 从这个站点开始
+description: 关于 iwildeer，以及它对我职业生涯的意义
+date: 2026-08-30
 type: blog
 art: plum
 ---
 
-Welcome to my blog! This site is built with React, Vite, and Markdown-driven content routing.
+这是这个站点上的第一篇博客。
 
-## Code example
+[iwildeer](https://github.com/iwildeer/iwildeer.me) 是我的个人网站。设计受 [antfu.me](https://antfu.me) 启发：页面、文章、项目都写在 Markdown 里，路由从内容目录自动长出来。技术上用 {React} {TypeScript} {Vite} {Tailwind}，没有后台，没有 CMS。我想要的是一块完全由自己维护的地方——写什么、怎么排、什么时候上线，都不必经过别人。
 
-```ts
-import { getPublishedPosts } from '@/lib/content'
+工作里写的代码，多半服务于别人的产品、别人的排期。这个站点反过来。没有需求文档，也没有评审会，做完就是自己的。它逼我把一条链路走完：内容怎么组织、页面怎么生长、暗色模式、构建、部署。简历上这只是一行「个人网站」，补上的却是完整的一环：你得对自己的品味负责，也得对自己的实现负责。
 
-const posts = getPublishedPosts()
-console.log(posts.length)
-```
-
-## Features
-
-- File-based content routing with `import.meta.glob`
-- GFM support (tables, task lists, ~~strikethrough~~)
-- Syntax highlighting via Shiki
-
-| Feature | Status |
-| --- | --- |
-| Blog | Done |
-| Projects | Done |
-| 404 | Done |
-
-- [x] Content routing automation
-- [x] Dynamic SEO from frontmatter
-- [ ] More posts coming soon
+对我来说，职业生涯不该只剩交付。还需要一个可以慢慢长、而且不会随换工作而消失的东西。iwildeer 就是这个东西。以后会在这里放开发笔记、生活碎片，偶尔也有照片。不追求更新频率，只希望若干年后回看，还能认出当时的自己。

@@ -34,6 +34,8 @@ function ProjectIcon({ icon }: { icon: string }) {
     )
   }
 
+  if (import.meta.env.DEV)
+    console.warn(`[projects] unknown icon "${icon}" — expected "logo" or a name registered in src/icons/index.ts`)
   return null
 }
 

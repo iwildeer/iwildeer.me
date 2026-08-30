@@ -326,6 +326,14 @@ html.dark .logo-path {
   display: inline;
 }
 
+.nav-icon {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  flex-shrink: 0;
+  vertical-align: -0.125em;
+}
+
 .nav-icon-only {
   display: none;
 }
@@ -718,38 +726,142 @@ html.dark .media-tab-active {
   opacity: 0.5;
 }
 
+/* Square-cropped photo grid, ported from antfu.me's PhotoGrid.
+ * Columns: 2 on phones, 3 from md, 4 from lg. */
 .photos {
-  column-count: 2;
-  column-gap: 0.75rem;
-}
-
-@media (max-width: 479px) {
-  .photos {
-    column-count: 1;
-  }
-}
-
-.photos figure {
-  break-inside: avoid;
-  page-break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  margin: 0 0 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
 }
 
 .photos img {
   display: block;
   width: 100%;
-  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  cursor: zoom-in;
 }
 
-.photos figcaption {
-  font-style: italic;
+.photos.contain img {
+  object-fit: contain;
+}
+
+/* Contain view keeps natural ratios on phones, squares up from sm. */
+@media (max-width: 639px) {
+  .photos.contain img {
+    aspect-ratio: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .photos {
+    gap: 1rem;
+    /* Break out of the 65ch prose column into a wider grid. */
+    --photos-wrap: min(75rem, calc(100vw - 3.5rem));
+    width: var(--photos-wrap);
+    max-width: none;
+    margin-inline: calc(50% - var(--photos-wrap) / 2);
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .photos {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Floating cover/contain toggle, ported from antfu.me's PhotoGalleryAll. */
+.photos-toggle {
+  position: absolute;
+  left: 1.5rem;
+  top: 5rem;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+@media (min-width: 640px) {
+  .photos-toggle {
+    position: fixed;
+  }
+}
+
+.photos-toggle button {
+  display: inline-flex;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  color: inherit;
+  font-size: 1.2rem;
+  line-height: 1;
+  opacity: 0.2;
+  cursor: pointer;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.photos-toggle button:hover {
+  opacity: 1;
+  background: #88888811;
+}
+
+/* Fullscreen image viewer, ported from antfu.me's App.vue. */
+.image-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  cursor: zoom-out;
+  animation: image-viewer-fade 0.2s ease;
+}
+
+.image-viewer-backdrop {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(7px);
+  background: rgb(255 255 255 / 0.75);
+}
+
+html.dark .image-viewer-backdrop {
+  background: rgb(0 0 0 / 0.5);
+}
+
+.image-viewer img {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  object-fit: contain;
+  margin: auto;
+}
+
+.image-viewer-caption {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
   font-size: 0.875rem;
-  margin-top: 0.35rem;
+  color: #fff;
+  background: rgb(0 0 0 / 0.45);
 }
 
-.photo-footnote {
-  margin-top: 2.5rem;
+@keyframes image-viewer-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.photo-subtitle {
+  margin-top: 0;
+  margin-bottom: 1.75rem;
+  text-align: center;
+  font-style: italic;
+  font-synthesis: style;
   opacity: 0.5;
 }
 

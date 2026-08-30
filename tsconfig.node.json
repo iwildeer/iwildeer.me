@@ -6,8 +6,11 @@
     "types": ["node"],
     "skipLibCheck": true,
 
-    /* Bundler mode */
-    "module": "nodenext",
+    /* Bundler mode — Vite loads these config files through esbuild, so
+       bundler resolution matches how they actually run (nodenext cannot
+       resolve extensionless subpaths like '@iconify-icons/ri/github-fill'). */
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",

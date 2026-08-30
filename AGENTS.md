@@ -105,11 +105,11 @@ Pages and posts are **not** imported manually in `AppRoutes.tsx`. `src/lib/conte
 - Add a blog post: drop a `.md` in `content/posts/` (→ `/posts/<slug>`, slug = filename).
 - `content/pages/404.md` feeds the `NotFoundPage` content and does **not** become a route.
 
-**Frontmatter** (YAML, parsed by `yaml` in `lib/frontmatter.ts`): `title`, `description` (SEO), `date`, `type` (`blog` | `note`), `duration`, `draft`, `layout` (`posts-list` | `projects` | `media` | `photos` | default), `listType`, `social`, `art` (`dots` | `plum` | `both`), `display` (`""` hides the `<h1>`), `projects`. New fields go in `types/content.ts` `PageMeta`.
+**Frontmatter** (YAML, parsed by `yaml` in `lib/frontmatter.ts`): `title`, `description` (SEO), `date`, `type` (`blog` | `note`), `duration`, `draft`, `layout` (`posts-list` | `projects` | `media` | `photos` | default), `listType`, `social`, `art` (`dots` | `plum` | `both`), `display` (`""` hides the `<h1>`), `projects`. New fields go in `types/content.ts` `PageMeta` **and** `KNOWN_META_KEYS` in `lib/frontmatter.ts` — unknown frontmatter keys log a dev-only warning.
 
 **Media lists:** `layout: media` pages render categories loaded by `lib/mediaGroups.ts` from `src/content/media/*.ts` — each module exports `items: MediaItem[]`; the filename maps to the category (`01-anime.ts` → the `anime` tab, `NN-` prefix stripped and used for ordering). An inline `media:` frontmatter block overrides the globbed groups per key.
 
-**Photos:** `layout: photos` pages render the stream loaded by `lib/photos.ts` from `src/content/photos/` (jpg/jpeg/png/webp/gif/svg). An optional sidecar `<name>.json` (`{ text }`) adds a caption. Files sort newest-first by filename (numeric compare), so name them with timestamps. Every photos page shares the same stream.
+**Photos:** `layout: photos` pages render the stream loaded by `lib/photos.ts` from `src/content/photos/` (jpg/jpeg/png/webp/gif/svg). An optional sidecar `<name>.json` (`{ text }`) becomes the image's caption in the fullscreen viewer (the grid shows no per-photo captions). Files sort newest-first by filename (numeric compare), so name them with timestamps. Every photos page shares the same stream. The grid is square-cropped cells with a floating cover/contain toggle (persisted in `localStorage` `photos-gallery-view`); clicking any image inside `.prose`/`.photos` opens the global `ImageViewer` lightbox (Arrow keys navigate via `data-photo-index`, Escape closes). Layout ported from antfu.me.
 
 **Drafts:** posts with `draft: true` are excluded from lists (`getPublishedPosts`) and from production routes (`getRoutablePosts` filters them when `import.meta.env.PROD`); they stay previewable in `pnpm dev`.
 

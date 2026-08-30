@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom'
 import { Footer } from '@/components/Footer'
+import { ImageViewer } from '@/components/ImageViewer'
 import { NavBar } from '@/components/NavBar'
 import { NProgressHandler } from '@/components/NProgressHandler'
 import { SiteBackground } from '@/components/SiteBackground'
@@ -17,6 +18,7 @@ function App() {
           <Footer />
         </main>
       </div>
+      <ImageViewer />
     </PageArtProvider>
   )
 }

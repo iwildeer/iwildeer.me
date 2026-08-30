@@ -110,10 +110,10 @@ export function ContentPage({ entry }: ContentPageProps) {
       {layout === 'photos' && meta.photos && (
         <>
           {content && <Markdown highlights={entry.highlights}>{content}</Markdown>}
-          <ListPhotos photos={meta.photos} />
-          <p className="photo-footnote">
+          <p className="photo-subtitle">
             Photos of my daily life, newest first.
           </p>
+          <ListPhotos photos={meta.photos} />
         </>
       )}
 

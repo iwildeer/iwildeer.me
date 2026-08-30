@@ -55,6 +55,13 @@ function buildPageEntries(): PageEntry[] {
     .filter((entry): entry is PageEntry => entry !== null)
 }
 
+// Missing or unparsable dates count as 0 so a bad date can't turn the
+// comparator into NaN and silently scramble the sort.
+function toTimestamp(date?: string) {
+  const time = date ? new Date(date).getTime() : Number.NaN
+  return Number.isFinite(time) ? time : 0
+}
+
 function buildPostEntries(): PostEntry[] {
   return Object.entries(postModules)
     .map(([path, mod]) => {
@@ -62,11 +69,7 @@ function buildPostEntries(): PostEntry[] {
       const { meta, body } = parseMarkdown(mod.source)
       return { slug, source: mod.source, highlights: mod.highlights, meta, body }
     })
-    .sort((a, b) => {
-      const dateA = a.meta.date ? new Date(a.meta.date).getTime() : 0
-      const dateB = b.meta.date ? new Date(b.meta.date).getTime() : 0
-      return dateB - dateA
-    })
+    .sort((a, b) => toTimestamp(b.meta.date) - toTimestamp(a.meta.date))
 }
 
 export const pageEntries = buildPageEntries()

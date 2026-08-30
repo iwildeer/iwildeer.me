@@ -1,3 +1,9 @@
+// '.js' suffix + relative path: this module is also pulled into the
+// tsconfig.node.json program (via vite-plugin-shiki.ts → frontmatter.ts),
+// which has no '@' alias. The import is type-only, so it never reaches a
+// bundler.
+import type { RegisteredIcon } from '../icons/index.js'
+
 export type Highlights = Record<string, string>
 
 export type PageLayout = 'default' | 'posts-list' | 'projects' | 'media' | 'photos'
@@ -8,7 +14,7 @@ export interface ProjectItem {
   name: string
   link: string
   desc?: string
-  icon?: string
+  icon?: 'logo' | RegisteredIcon
 }
 
 export interface MediaItem {
@@ -42,7 +48,6 @@ export interface PageMeta {
   media?: Record<string, MediaItem[]>
   photos?: PhotoItem[]
   display?: string
-  [key: string]: unknown
 }
 
 export interface PageEntry {

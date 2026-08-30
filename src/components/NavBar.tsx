@@ -9,7 +9,7 @@ const navItems: { label: string; href: string; icon: RegisteredIcon }[] = [
   { label: 'Blog', href: '/posts', icon: 'ri:article-line' },
   { label: 'Projects', href: '/projects', icon: 'ri:lightbulb-line' },
   { label: 'Media', href: '/media', icon: 'ri:film-line' },
-  { label: 'Photos', href: '/photos', icon: 'ri:camera-lens-line' },
+  { label: 'Photos', href: '/photos', icon: 'ri:image-line' },
 ]
 
 function DarkToggle({ isDark, onToggle }: { isDark: boolean; onToggle: (event: React.MouseEvent<HTMLButtonElement>) => void }) {
@@ -20,7 +20,7 @@ function DarkToggle({ isDark, onToggle }: { isDark: boolean; onToggle: (event: R
       onClick={onToggle}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
-      <Icon icon={isDark ? 'ri:sun-line' : 'ri:moon-line'} />
+      <Icon icon={isDark ? 'ri:sun-line' : 'ri:moon-line'} className="nav-icon" />
     </button>
   )
 }
@@ -63,7 +63,7 @@ export function NavBar() {
           {navItems.map(item => (
             <AppLink key={item.href} to={item.href} className="nav-link" title={item.label}>
               <span className="nav-label">{item.label}</span>
-              <Icon icon={item.icon} className="nav-icon-only" />
+              <Icon icon={item.icon} className="nav-icon nav-icon-only" />
             </AppLink>
           ))}
           <DarkToggle isDark={isDark} onToggle={toggleDark} />
