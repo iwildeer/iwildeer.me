@@ -602,6 +602,7 @@ html.dark .project-group-title {
   background: transparent;
   font: inherit;
   font-family: inherit;
+  font-weight: 700;
   color: inherit;
   cursor: pointer;
   text-decoration: none;

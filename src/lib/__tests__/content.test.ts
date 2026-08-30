@@ -3,6 +3,7 @@ import {
   expandMagicLinks,
   getPublishedPosts,
   getRoutablePosts,
+  pageEntries,
   parseMarkdown,
   postEntries,
 } from '@/lib/content'
@@ -55,6 +56,25 @@ describe('expandMagicLinks', () => {
 
   it('leaves empty braces untouched', () => {
     expect(expandMagicLinks('a {} b')).toBe('a {} b')
+  })
+})
+
+describe('media page', () => {
+  const mediaEntry = pageEntries.find(entry => entry.slug === 'media')!
+
+  it('injects glob-loaded media in the authored category order', () => {
+    expect(mediaEntry.meta.layout).toBe('media')
+    expect(Object.keys(mediaEntry.meta.media ?? {})).toEqual([
+      'anime', 'movie', 'book', 'game', 'song',
+    ])
+  })
+
+  it('parses items from the category files', () => {
+    expect(mediaEntry.meta.media?.anime[0]).toEqual({
+      title: '葬送のフリーレン',
+      author: '山田鐘人',
+    })
+    expect(mediaEntry.meta.media?.song).toHaveLength(3)
   })
 })
 

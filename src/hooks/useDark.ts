@@ -58,8 +58,13 @@ function runViewTransitionToggle(
   const root = document.documentElement
   const { x, y } = resolveToggleOrigin(event)
 
-  root.style.setProperty('--vt-x', `${x}px`)
-  root.style.setProperty('--vt-y', `${y}px`)
+  // Percentages, not px: clip-path coordinates on ::view-transition
+  // pseudo-elements are mis-scaled by the device pixel ratio in Chromium
+  // (px values render off the click point on scaled displays, e.g. Windows
+  // 125%). Percentages resolve against the snapshot box and stay correct
+  // at any DPR.
+  root.style.setProperty('--vt-x', `${((x / root.clientWidth) * 100).toFixed(2)}%`)
+  root.style.setProperty('--vt-y', `${((y / root.clientHeight) * 100).toFixed(2)}%`)
 
   const transition = document.startViewTransition!(() => {
     root.dataset.themeTransition = 'true'

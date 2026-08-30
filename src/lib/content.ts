@@ -1,4 +1,5 @@
 import { parseMarkdown } from './frontmatter'
+import { mediaGroups } from './mediaGroups'
 import type {
   Highlights,
   ListType,
@@ -35,6 +36,10 @@ function buildPageEntries(): PageEntry[] {
         return null
 
       const { meta } = parseMarkdown(mod.source)
+      // Every media-layout page shares the same glob-loaded categories;
+      // an inline `media:` frontmatter block would override them per key.
+      if (meta.layout === 'media')
+        meta.media = { ...mediaGroups, ...meta.media }
       return {
         slug: name === 'index' ? '' : name,
         source: mod.source,
