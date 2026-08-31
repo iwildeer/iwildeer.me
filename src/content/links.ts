@@ -11,6 +11,10 @@ export const magicLinks: Record<string, MagicLinkMeta | string> = {
     link: 'https://github.com/facebook/react',
     imageUrl: '/logos/react.svg',
   },
+  Vue: {
+    link: 'https://github.com/vuejs/core',
+    imageUrl: '/logos/vue.svg',
+  },
   TypeScript: {
     link: 'https://github.com/microsoft/TypeScript',
     imageUrl: '/logos/typescript.svg',

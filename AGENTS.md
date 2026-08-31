@@ -113,7 +113,7 @@ Pages and posts are **not** imported manually in `AppRoutes.tsx`. `src/lib/conte
 
 **Drafts:** posts with `draft: true` are excluded from lists (`getPublishedPosts`) and from production routes (`getRoutablePosts` filters them when `import.meta.env.PROD`); they stay previewable in `pnpm dev`.
 
-**Magic Links:** `{Name}` tags in Markdown are expanded by `expandMagicLinks()` to `magic:<url>` links resolved against `src/content/links.ts` (`magicLinks`). Entries are either a URL string or `{ link, imageUrl? }` — `imageUrl` (tech logos live in `public/logos/`) renders a small logo inside the link pill. Code spans / inline code are protected from expansion.
+**Magic Links:** `{Name}` tags in Markdown are expanded by `expandMagicLinks()` to `magic:<url>` links resolved against `src/content/links.ts` (`magicLinks`). Entries are either a URL string or `{ link, imageUrl? }` — `imageUrl` (tech logos live in `public/logos/`) renders a small logo inside the link pill. Code spans / inline code are protected from expansion. Inside a paragraph, a standalone `/` text node between pills is wrapped in a `markdown-magic-sep` span (custom `p` renderer in `lib/markdownComponents.tsx`) so the separator shares the pills' metrics.
 
 ### Links & Icons
 

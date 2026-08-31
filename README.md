@@ -159,7 +159,7 @@ Drop photos into `src/content/photos/` (`jpg` / `jpeg` / `png` / `webp` / `gif` 
 
 ### Magic Links
 
-Inline `{Name}` tags in Markdown render as link pills. Mapping lives in `src/content/links.ts` — entries are either a URL string or `{ link, imageUrl }`, where `imageUrl` (tech logos live in `public/logos/`) shows a small logo inside the pill. Unknown names link to `#`.
+Inline `{Name}` tags in Markdown render as link pills. Mapping lives in `src/content/links.ts` — entries are either a URL string or `{ link, imageUrl }`, where `imageUrl` (tech logos live in `public/logos/`) shows a small logo inside the pill. Unknown names link to `#`. Inside a paragraph, a standalone `/` between pills (e.g. `{Web Dev} / {Open Source}`) is wrapped in a `markdown-magic-sep` span so the separator shares the pills' smaller metrics.
 
 ### Social links & icons
 

@@ -151,6 +151,17 @@ a.item:hover {
   font-size: 0.875rem;
 }
 
+.markdown-magic-sep {
+  display: inline-flex;
+  align-items: center;
+  transform: translateY(3px);
+  margin-inline: 0.4em 0.22em;
+  font-family: 'Inter Variable', Inter, sans-serif;
+  font-size: 0.875rem;
+  line-height: 100%;
+  color: var(--fg-light);
+}
+
 .markdown-magic-link:hover {
   background: #8883;
   color: var(--fg) !important;

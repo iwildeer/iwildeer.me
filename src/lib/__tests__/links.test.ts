@@ -12,6 +12,10 @@ describe('resolveMagicLink', () => {
       link: 'https://github.com/facebook/react',
       imageUrl: '/logos/react.svg',
     })
+    expect(resolveMagicLink('Vue')).toEqual({
+      link: 'https://github.com/vuejs/core',
+      imageUrl: '/logos/vue.svg',
+    })
     expect(resolveMagicLink('Iwildeer')).toEqual({
       link: 'https://github.com/iwildeer/iwildeer.me',
       imageUrl: '/avatar.jpg',

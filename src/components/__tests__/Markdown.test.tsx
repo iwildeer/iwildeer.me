@@ -32,4 +32,24 @@ describe('Markdown magic links', () => {
     expect(html).toContain('/logos/react.svg')
     expect(html).toContain('React')
   })
+
+  it('renders the Vue capsule with its logo', () => {
+    const html = renderToStaticMarkup(
+      <MemoryRouter>
+        <Markdown>{'[Vue](magic:Vue)'}</Markdown>
+      </MemoryRouter>,
+    )
+    expect(html).toContain('/logos/vue.svg')
+    expect(html).toContain('Vue')
+  })
+
+  it('wraps a slash between capsules so it can share their metrics', () => {
+    const html = renderToStaticMarkup(
+      <MemoryRouter>
+        <Markdown>{'[Web Dev](magic:Web%20Dev) / [Open Source](magic:Open%20Source)'}</Markdown>
+      </MemoryRouter>,
+    )
+    expect(html).toContain('markdown-magic-sep')
+    expect(html).toMatch(/markdown-magic-sep">\/<\/span>/)
+  })
 })
