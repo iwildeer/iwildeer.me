@@ -471,12 +471,55 @@ html.dark .logo-path {
   left: -1.5rem;
   top: -0.15em;
   z-index: 0;
+  display: block;
   font-size: 8em;
-  font-weight: 700;
+  font-weight: 800;
+  font-variation-settings: 'wght' 800;
+  letter-spacing: -0.04em;
   line-height: 1;
+}
+
+.post-list-year-deco,
+.post-list-year-outline {
+  display: block;
   color: transparent;
-  -webkit-text-stroke: 2px #aaa;
-  opacity: 0.1;
+}
+
+.post-list-year-deco {
+  --year-deco-flow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='96' viewBox='0 0 160 96'%3E%3Cg fill='none' stroke='rgb(40 40 40)' stroke-linecap='round'%3E%3Cpath stroke-width='0.7' opacity='.2' d='M-12 22C30 8 58 36 94 18S138 30 176 12'/%3E%3Cpath stroke-width='0.5' opacity='.12' d='M-10 48C26 60 62 30 98 50S140 40 178 58'/%3E%3Cpath stroke-width='0.55' opacity='.14' d='M-8 74C34 60 62 86 108 70S146 84 174 66'/%3E%3Cpath stroke-width='0.45' opacity='.1' d='M-6 6C38 20 74-2 120 16S152 6 170 24'/%3E%3Cpath stroke-width='0.45' opacity='.12' d='M52 20C58 12 66 8 76 4'/%3E%3Cpath stroke-width='0.4' opacity='.1' d='M90 52C96 62 102 68 112 74'/%3E%3C/g%3E%3C/svg%3E");
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  -webkit-text-fill-color: transparent;
+  background-image: var(--year-deco-flow);
+  background-size: 10em 6em;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.post-list-year-outline {
+  position: relative;
+  -webkit-text-stroke: 1.5px rgb(80 80 80 / 0.14);
+}
+
+html.dark .post-list-year-deco {
+  --year-deco-flow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='96' viewBox='0 0 160 96'%3E%3Cg fill='none' stroke='rgb(230 230 230)' stroke-linecap='round'%3E%3Cpath stroke-width='0.7' opacity='.22' d='M-12 22C30 8 58 36 94 18S138 30 176 12'/%3E%3Cpath stroke-width='0.5' opacity='.12' d='M-10 48C26 60 62 30 98 50S140 40 178 58'/%3E%3Cpath stroke-width='0.55' opacity='.14' d='M-8 74C34 60 62 86 108 70S146 84 174 66'/%3E%3Cpath stroke-width='0.45' opacity='.1' d='M-6 6C38 20 74-2 120 16S152 6 170 24'/%3E%3Cpath stroke-width='0.45' opacity='.12' d='M52 20C58 12 66 8 76 4'/%3E%3Cpath stroke-width='0.4' opacity='.1' d='M90 52C96 62 102 68 112 74'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@keyframes year-deco-flow {
+  to {
+    background-position: 10em 6em;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .post-list-year-deco {
+    animation: year-deco-flow 48s linear infinite;
+  }
+}
+
+html.dark .post-list-year-outline {
+  -webkit-text-stroke: 1.5px rgb(170 170 170 / 0.16);
 }
 
 .post-list > .slide-enter:not(.post-list-year-wrap) {
@@ -494,26 +537,36 @@ html.dark .logo-path {
 
 .post-list-entry {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-@media (min-width: 768px) {
-  .post-list-entry {
-    flex-direction: row;
-    align-items: center;
-  }
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.35rem 0.65rem;
 }
 
 .post-list-title {
-  font-size: 1.125rem;
-  line-height: 1.2em;
+  flex: 0 1 auto;
+  min-width: 0;
+  font-size: clamp(0.9375rem, 0.8rem + 1.1vw, 1.125rem);
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.post-list-date,
-.post-list-duration {
-  font-size: 0.875rem;
+.post-list-meta {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: baseline;
+  gap: 0.25em;
+  font-size: clamp(0.6875rem, 0.6rem + 0.75vw, 0.875rem);
   white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .post-list-title {
+    overflow: visible;
+    text-overflow: unset;
+    white-space: normal;
+  }
 }
 
 .post-list-date {
