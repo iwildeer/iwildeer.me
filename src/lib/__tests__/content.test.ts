@@ -71,8 +71,8 @@ describe('media page', () => {
 
   it('parses items from the category files', () => {
     expect(mediaEntry.meta.media?.anime[0]).toEqual({
-      title: '罗小黑战记',
-      author: '木头',
+      title: '灵笼',
+      author: '艺画开天',
     })
     expect((mediaEntry.meta.media?.song ?? []).length).toBeGreaterThan(0)
   })
