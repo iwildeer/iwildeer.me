@@ -13,7 +13,7 @@ function App() {
     <PageArtProvider>
       <NProgressHandler />
       <SiteBackground />
-      <div className="relative z-1 text-[var(--fg)]">
+      <div className="relative z-1 text-(--fg)">
         <NavBar />
         <main className="site-main">
           <Outlet />
