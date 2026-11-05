@@ -8,7 +8,7 @@ Guidance for AI coding agents operating in this repository.
 
 ## Commands
 
-Package manager: **pnpm** (lockfile committed). Node 22 / pnpm 9 (see `.github/workflows/deploy.yml`).
+Package manager: **pnpm** (lockfile committed). Node 22 / pnpm 9 (see `netlify.toml`).
 
 ```bash
 pnpm install              # install dependencies
@@ -127,7 +127,7 @@ Pages and posts are **not** imported manually in `AppRoutes.tsx`. `src/lib/conte
 
 ## Deployment
 
-Pushing to `master` triggers `.github/workflows/deploy.yml` (pnpm lint + build → rsync `dist/` to Alibaba Cloud ECS). Keep `pnpm lint` and `pnpm build` green before pushing to `master`.
+Deployed to **Netlify** (config in `netlify.toml`): pnpm build → publish `dist/`, with an SPA catch-all redirect (`/*` → `index.html`, status 200) and immutable caching for `/assets/*`. Keep `pnpm lint` and `pnpm build` green before pushing to `master`.
 
 ## Conventions Summary (quick checklist)
 
