@@ -1,5 +1,3 @@
-import { BeianLink } from '@/components/BeianLink'
-
 export function Footer() {
   return (
     <div className="copyright mt-10 mb-6 prose m-auto flex slide-enter">
@@ -13,8 +11,6 @@ export function Footer() {
         </a>
         &nbsp;
         2026-PRESENT © Iwildeer
-        <br />
-        <BeianLink />
       </span>
       <div className="flex-auto" />
     </div>

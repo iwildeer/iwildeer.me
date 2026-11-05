@@ -52,7 +52,6 @@ src/
 │   ├── NavBar.tsx
 │   ├── SubNav.tsx
 │   ├── Footer.tsx
-│   ├── BeianLink.tsx     # ICP / MPS beian links (footer)
 │   ├── ContentPage.tsx   # Renders a page entry by layout
 │   ├── PostPage.tsx      # Renders a single post
 │   ├── ListPosts.tsx
