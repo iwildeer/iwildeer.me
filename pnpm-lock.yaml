@@ -20,6 +20,9 @@ importers:
       '@iconify-icons/ri':
         specifier: ^1.2.10
         version: 1.2.10
+      '@iconify-icons/simple-icons':
+        specifier: ^2.0.8
+        version: 2.0.8
       '@iconify/react':
         specifier: ^6.0.2
         version: 6.0.2(react@19.2.7)
@@ -263,6 +266,9 @@ packages:
 
   '@iconify-icons/ri@1.2.10':
     resolution: {integrity: sha512-wNaXsQYK55WDUWCbcjvnwnODV4Jtsp+VC0duPanibEVu876TUYf6kdgTGtH7/GErBCNdJuJJbncG7vbOaeQi7w==}
+
+  '@iconify-icons/simple-icons@2.0.8':
+    resolution: {integrity: sha512-T/Y45ZhrMABh+vDGVTrcMZYolnKswfV4xj+odeHU9eYYkTA+f9uDSoaMBgGzOGEBbaSTK6cVulyaMrT5O7MhLQ==}
 
   '@iconify/react@6.0.2':
     resolution: {integrity: sha512-SMmC2sactfpJD427WJEDN6PMyznTFMhByK9yLW0gOTtnjzzbsi/Ke/XqsumsavFPwNiXs8jSiYeZTmLCLwO+Fg==}
@@ -1867,6 +1873,10 @@ snapshots:
   '@humanwhocodes/retry@0.4.3': {}
 
   '@iconify-icons/ri@1.2.10':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-icons/simple-icons@2.0.8':
     dependencies:
       '@iconify/types': 2.0.0
 

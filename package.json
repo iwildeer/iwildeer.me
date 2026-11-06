@@ -16,6 +16,7 @@
     "@fontsource/dm-mono": "^5.2.7",
     "@fontsource/lxgw-wenkai": "^5.2.5",
     "@iconify-icons/ri": "^1.2.10",
+    "@iconify-icons/simple-icons": "^2.0.8",
     "@iconify/react": "^6.0.2",
     "nprogress": "^0.2.0",
     "react": "^19.2.7",
