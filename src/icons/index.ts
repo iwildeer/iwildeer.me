@@ -2,6 +2,7 @@ import visualstudiocode from '@iconify-icons/simple-icons/visualstudiocode'
 import githubFill from '@iconify-icons/ri/github-fill'
 import articleLine from '@iconify-icons/ri/article-line'
 import arrowUpLine from '@iconify-icons/ri/arrow-up-line'
+import dashboard3Line from '@iconify-icons/ri/dashboard-3-line'
 import filmLine from '@iconify-icons/ri/film-line'
 import gridLine from '@iconify-icons/ri/grid-line'
 import imageLine from '@iconify-icons/ri/image-line'
@@ -17,6 +18,7 @@ export const iconRegistry = {
   'ri:github-fill': githubFill,
   'ri:article-line': articleLine,
   'ri:arrow-up-line': arrowUpLine,
+  'ri:dashboard-3-line': dashboard3Line,
   'ri:film-line': filmLine,
   'ri:grid-line': gridLine,
   'ri:image-line': imageLine,
