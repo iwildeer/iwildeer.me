@@ -1,7 +1,6 @@
 @import '@fontsource-variable/inter';
 @import '@fontsource/dm-mono/400.css';
-@import '@fontsource/lxgw-wenkai/500.css';
-@import '@fontsource/lxgw-wenkai/700.css';
+@import 'lxgw-wenkai-screen-webfont/lxgwwenkaiscreen.css';
 @import 'tailwindcss';
 @import './styles/prose.css';
 @import './styles/markdown.css';
@@ -9,7 +8,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: 'Inter Variable', Inter, 'LXGW WenKai', serif;
+  --font-sans: 'Inter Variable', Inter, 'LXGW WenKai Screen', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   --font-mono: 'DM Mono', 'Input Mono', 'Fira Code', monospace;
 }
 
@@ -21,7 +20,7 @@
   --fg: #555;
   --fg-deep: #222;
   --fg-deeper: #000;
-  --font-sans: 'Inter Variable', Inter, 'LXGW WenKai', serif;
+  --font-sans: 'Inter Variable', Inter, 'LXGW WenKai Screen', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   --font-mono: 'DM Mono', 'Input Mono', 'Fira Code', monospace;
   color-scheme: light dark;
 }
@@ -120,7 +119,7 @@ body {
   line-height: 1.75;
   color: var(--fg);
   background-color: var(--c-bg);
-  font-synthesis: none;
+  font-synthesis: weight;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -707,7 +706,7 @@ html.dark .project-group-title {
 }
 
 .media-consumption {
-  font-family: 'DM Mono', 'Input Mono', 'Fira Code', 'LXGW WenKai', monospace;
+  font-family: 'DM Mono', 'Input Mono', 'Fira Code', 'LXGW WenKai Screen', monospace;
 }
 
 .media-tabs {

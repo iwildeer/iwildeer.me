@@ -14,9 +14,6 @@ importers:
       '@fontsource/dm-mono':
         specifier: ^5.2.7
         version: 5.2.7
-      '@fontsource/lxgw-wenkai':
-        specifier: ^5.2.5
-        version: 5.2.5
       '@iconify-icons/ri':
         specifier: ^1.2.10
         version: 1.2.10
@@ -26,6 +23,9 @@ importers:
       '@iconify/react':
         specifier: ^6.0.2
         version: 6.0.2(react@19.2.7)
+      lxgw-wenkai-screen-webfont:
+        specifier: ^1.7.0
+        version: 1.7.0
       nprogress:
         specifier: ^0.2.0
         version: 0.2.0
@@ -240,9 +240,6 @@ packages:
 
   '@fontsource/dm-mono@5.2.7':
     resolution: {integrity: sha512-Ma1az2atTVgQWuOWwjuxx26p/6A6CU9HBNKq1CFV6YKpKhpswnf9ry9Ql4+T6bTZzkdtSfS6tjJvqZOljVzIFQ==}
-
-  '@fontsource/lxgw-wenkai@5.2.5':
-    resolution: {integrity: sha512-lIBouZW7qNw3VdVnjc0NC80iDfxjU7OnaKGaz6QHiHjC8z0fv9MyrHpeBMzkPnyEVabcpUu4Wf8DnaihfGVYtw==}
 
   '@humanfs/core@0.19.2':
     resolution: {integrity: sha512-UhXNm+CFMWcbChXywFwkmhqjs3PRCmcSa/hfBgLIb7oQ5HNb1wS0icWsGtSAUNgefHeI+eBrA8I1fxmbHsGdvA==}
@@ -1152,6 +1149,9 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
+  lxgw-wenkai-screen-webfont@1.7.0:
+    resolution: {integrity: sha512-xvfF4V26Mb335xKg3uxljz+V2nq4F5ek0ku9pmyKgT0Dzo/d2rHi7WpnqgvM9mlXAcAKOrxrcDmUZiIs/ZQ9bQ==}
+
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
@@ -1853,8 +1853,6 @@ snapshots:
   '@fontsource-variable/inter@5.2.8': {}
 
   '@fontsource/dm-mono@5.2.7': {}
-
-  '@fontsource/lxgw-wenkai@5.2.5': {}
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -2694,6 +2692,8 @@ snapshots:
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
+
+  lxgw-wenkai-screen-webfont@1.7.0: {}
 
   magic-string@0.30.21:
     dependencies:
