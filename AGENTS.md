@@ -51,10 +51,17 @@ src/
 ├── context/                # React contexts
 ├── hooks/                  # useDark, usePageMeta, usePageArt
 ├── icons/index.ts          # Iconify icon registry
-├── lib/                    # content.ts (glob/route data), frontmatter.ts, mediaGroups.ts, photos.ts, markdownComponents, etc.
+├── lib/                    # content.ts (glob/route data), frontmatter.ts, mediaGroups.ts, photos.ts, toc.ts, markdownComponents, etc.
 ├── styles/                 # prose.css, markdown.css
 └── types/content.ts        # PageMeta, PageEntry, PostEntry, etc.
 ```
+
+## Skills
+
+Project skills live in `.claude/skills/` — consult the matching one before the task:
+
+- **`web-design`** — the site's design system: color variables and alpha grays, typography, layout patterns (prose column, wide-grid breakout), breakpoints, the z-index ladder, motion rules, component conventions. Read before any UI/styling work on this site.
+- **`frontend-design`** — general guidance for distinctive, non-templated visual design; use when building a standalone page with a fresh direction instead of following the site system.
 
 ## Code Style
 
@@ -87,7 +94,7 @@ src/
 
 ### Styling
 
-- **Tailwind utility classes** plus semantic classes defined in `index.css` / `src/styles/` (e.g. `prose`, `nav-link`, `post-list`, `project-list-wrap`, `slide-enter-content`).
+- **Tailwind utility classes** plus semantic classes defined in `index.css` / `src/styles/` (e.g. `prose`, `nav-link`, `post-list`, `project-list-wrap`, `slide-enter-content`). For any design/UI work (colors, typography, layout, hover states, animation), follow the site design system documented in `.claude/skills/web-design/SKILL.md`.
 - Theme colors via CSS variables: `text-[var(--fg)]`. Dark mode is toggled with `document.documentElement.classList.toggle('dark')` (see `hooks/useDark.ts`).
 - Avoid inline `style` unless the value is dynamic/unavoidable (e.g. `backgroundImage`, view-transition clip paths).
 
@@ -124,6 +131,8 @@ Pages and posts are **not** imported manually in `AppRoutes.tsx`. `src/lib/conte
 ### Markdown Rendering
 
 `react-markdown` + `remark-gfm`. Code blocks are highlighted **at build time** by `vite-plugin-shiki.ts` (root, runs on `?md-source` modules) — the plugin replaces fenced blocks with ```` ```shiki:<id> ```` placeholders and exposes `{ source, highlights }`; `components/MarkdownCode.tsx` looks the pre-rendered HTML up via the highlights context. Custom renderers live in `lib/markdownComponents.tsx` / `lib/markdownPlugins.ts`. `ContentPage` renders `SocialLinks` when `social: true` is set in frontmatter — placed at a `::social::` marker in the body if present, otherwise appended at the end.
+
+**Table of contents** (ported from antfu.me): `h2`–`h4` get CJK-safe slug ids plus hover `#` anchors (renderers in `lib/markdownComponents.tsx`, slugs/extraction in `lib/toc.ts`). Post pages render a fixed left outline (`components/Outline.tsx`) from headings extracted out of the post source — code fences skipped — expanded on hover (`tocAlwaysOn: true` in frontmatter pins it open); clicks and `#hash` deep links smooth-scroll (−40px offset).
 
 ## Deployment
 
