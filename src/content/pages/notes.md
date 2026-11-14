@@ -1,6 +1,6 @@
 ---
 title: Notes
-description: Short notes and snippets
+description: 日常生活与个人感悟
 layout: posts-list
 listType: note
 display: ''

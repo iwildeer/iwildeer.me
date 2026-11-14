@@ -110,6 +110,7 @@ Pages and posts are **not** imported manually in `AppRoutes.tsx`. `src/lib/conte
 
 - Add a static page: drop a `.md` in `content/pages/` (`index.md` → `/`, others → `/<name>`).
 - Add a blog post: drop a `.md` in `content/posts/` (→ `/posts/<slug>`, slug = filename).
+- **Bilingual posts:** `<slug>.en.md` next to `<slug>.md` is the English variant (own title/description in frontmatter, same date/type). Variants share the `/posts/<slug>` route; `?lang=en` selects English, and `PostPage` renders a 中/EN switch only when both exist. Lists and routes keep one entry per slug — the default (zh) variant wins when both are present.
 - `content/pages/404.md` feeds the `NotFoundPage` content and does **not** become a route.
 
 **Frontmatter** (YAML, parsed by `yaml` in `lib/frontmatter.ts`): `title`, `description` (SEO), `date`, `type` (`blog` | `note`), `duration`, `draft`, `layout` (`posts-list` | `projects` | `media` | `photos` | default), `listType`, `social`, `art` (`dots` | `plum` | `both`), `display` (`""` hides the `<h1>`), `tocAlwaysOn` (post TOC expanded without hover), `projects`. New fields go in `types/content.ts` `PageMeta` **and** `KNOWN_META_KEYS` in `lib/frontmatter.ts` — unknown frontmatter keys log a dev-only warning.
