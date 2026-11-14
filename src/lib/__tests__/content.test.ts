@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import {
   expandMagicLinks,
+  getPostBySlug,
   getPublishedPosts,
   getRoutablePosts,
   pageEntries,
@@ -127,6 +128,31 @@ describe('getRoutablePosts', () => {
   })
 
   it('keeps every post routable in dev for preview', () => {
-    expect(getRoutablePosts()).toHaveLength(postEntries.length)
+    const routable = getRoutablePosts()
+    const slugs = new Set(routable.map(p => p.slug))
+    // one route per slug, covering every entry (drafts included in dev)
+    expect(routable).toHaveLength(slugs.size)
+    expect(slugs.size).toBe(new Set(postEntries.map(p => p.slug)).size)
+  })
+})
+
+describe('language variants', () => {
+  it('parses `<slug>.en.md` into a shared slug plus lang', () => {
+    const en = getPostBySlug('gift-of-the-moment', 'en')
+    expect(en?.lang).toBe('en')
+    expect(en?.meta.title).toBe('The Gift of a Moment')
+    expect(getPostBySlug('gift-of-the-moment')?.lang).toBe('zh')
+  })
+
+  it('lists one entry per slug, preferring the default variant', () => {
+    const slugs = getPublishedPosts('note').map(p => `${p.slug}:${p.lang}`)
+    expect(new Set(slugs).size).toBe(slugs.length)
+    expect(slugs).toContain('gift-of-the-moment:zh')
+    expect(slugs).not.toContain('gift-of-the-moment:en')
+  })
+
+  it('shares one route across variants', () => {
+    const routable = getRoutablePosts()
+    expect(routable.filter(p => p.slug === 'gift-of-the-moment')).toHaveLength(1)
   })
 })

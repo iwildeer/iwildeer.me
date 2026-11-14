@@ -9,6 +9,8 @@ export type Highlights = Record<string, string>
 export type PageLayout = 'default' | 'posts-list' | 'projects' | 'media' | 'photos'
 export type PostType = 'blog' | 'note'
 export type ListType = PostType
+// `<slug>.md` is the default (Chinese) variant, `<slug>.en.md` the English one.
+export type PostLang = 'zh' | 'en'
 
 export interface ProjectItem {
   name: string
@@ -61,6 +63,7 @@ export interface PageEntry {
 
 export interface PostEntry {
   slug: string
+  lang: PostLang
   source: string
   highlights: Highlights
   meta: PageMeta

@@ -1,14 +1,14 @@
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { AppLink } from '@/components/AppLink'
 import { Markdown } from '@/components/Markdown'
 import { Outline } from '@/components/Outline'
-import { expandMagicLinks } from '@/lib/content'
+import { expandMagicLinks, getPostBySlug } from '@/lib/content'
 import { formatDate } from '@/lib/formatDate'
 import { extractHeadings, scrollToHeading } from '@/lib/toc'
 import { usePageMeta } from '@/hooks/usePageMeta'
 import { usePageArt } from '@/hooks/usePageArt'
-import type { PostEntry } from '@/types/content'
+import type { PostEntry, PostLang } from '@/types/content'
 
 interface PostPageProps {
   entry: PostEntry
@@ -37,7 +37,18 @@ function useHashNavigation(hash: string) {
 }
 
 export function PostPage({ entry }: PostPageProps) {
-  const { meta, body } = entry
+  // Language variants share the route; `?lang=en` selects the English one.
+  const zh = getPostBySlug(entry.slug, 'zh')
+  const en = getPostBySlug(entry.slug, 'en')
+  const hasBoth = Boolean(zh && en)
+
+  const [searchParams, setSearchParams] = useSearchParams()
+  const activeLang: PostLang = hasBoth && searchParams.get('lang') === 'en'
+    ? 'en'
+    : (zh ? 'zh' : 'en')
+  const active = activeLang === 'en' ? (en ?? entry) : (zh ?? entry)
+
+  const { meta, body, highlights } = active
   usePageMeta(meta)
   usePageArt(meta.art ?? 'plum')
 
@@ -46,6 +57,11 @@ export function PostPage({ entry }: PostPageProps) {
 
   const content = expandMagicLinks(body)
   const headings = extractHeadings(content)
+
+  const switchLang = (lang: PostLang) => {
+    // Default stays on the clean URL; only the English variant is addressable.
+    setSearchParams(lang === 'en' ? { lang: 'en' } : {})
+  }
 
   return (
     <article className={`prose m-auto slide-enter-content${meta.tocAlwaysOn ? ' toc-always-on' : ''}`}>
@@ -56,9 +72,28 @@ export function PostPage({ entry }: PostPageProps) {
       {meta.date && (
         <p className="post-meta">
           <time dateTime={meta.date}>{formatDate(meta.date)}</time>
+          {hasBoth && (
+            <span className="post-lang-toggle" role="group" aria-label="Switch language">
+              <button
+                type="button"
+                className={activeLang === 'zh' ? 'post-lang-active' : undefined}
+                onClick={() => switchLang('zh')}
+              >
+                中
+              </button>
+              <span className="post-lang-sep" aria-hidden="true">/</span>
+              <button
+                type="button"
+                className={activeLang === 'en' ? 'post-lang-active' : undefined}
+                onClick={() => switchLang('en')}
+              >
+                EN
+              </button>
+            </span>
+          )}
         </p>
       )}
-      <Markdown highlights={entry.highlights}>{content}</Markdown>
+      <Markdown highlights={highlights}>{content}</Markdown>
       <Outline headings={headings} />
     </article>
   )

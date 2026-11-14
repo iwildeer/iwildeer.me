@@ -443,6 +443,39 @@ html.dark .logo-path {
   opacity: 0.5;
 }
 
+/* Quiet 中 / EN switch inside .post-meta — only rendered when the post
+ * has both language variants. */
+.post-lang-toggle {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35em;
+  margin-left: 0.75em;
+  font-family: var(--font-mono);
+}
+
+.post-lang-toggle button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+.post-lang-toggle button:hover {
+  opacity: 0.9;
+}
+
+.post-lang-toggle .post-lang-active {
+  opacity: 1;
+}
+
+.post-lang-sep {
+  opacity: 0.4;
+}
+
 .post-list-empty {
   padding: 0.5rem 0;
   opacity: 0.5;
