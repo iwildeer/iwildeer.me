@@ -6,6 +6,8 @@ export const items: MediaItem[] = [
   { title: '葡萄成熟时', author: '陈奕迅' },
   { title: '我不难过', author: '孙燕姿' },
   { title: '安静', author: '周杰伦' },
+  { title: '爱在西元前', author: '周杰伦' },
+  { title: '反方向的钟', author: '周杰伦' },
   { title: '烂俗的歌', author: '汉堡黄' },
   { title: 'Yellow', author: 'Coldplay' },
   { title: 'Shape of You', author: 'Ed Sheeran' },
@@ -15,6 +17,7 @@ export const items: MediaItem[] = [
   { title: 'Sunflower', author: 'Post Malone' },
   { title: '勋章', author: '鹿晗' },
   { title: '蝴蝶', author: '陶喆' },
+  { title: '小情歌', author: '苏打绿' },
   { title: '红豆', author: '王菲' },
   { title: '有我呢', author: '郭一凡' },
 ]
