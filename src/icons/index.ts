@@ -1,4 +1,5 @@
 import visualstudiocode from '@iconify-icons/simple-icons/visualstudiocode'
+import vue from '@iconify-icons/logos/vue'
 import githubFill from '@iconify-icons/ri/github-fill'
 import articleLine from '@iconify-icons/ri/article-line'
 import arrowUpLine from '@iconify-icons/ri/arrow-up-line'
@@ -16,6 +17,7 @@ import tiktokFill from '@iconify-icons/ri/tiktok-fill'
 
 export const iconRegistry = {
   'si:visualstudiocode': visualstudiocode,
+  'logos:vue': vue,
   'ri:github-fill': githubFill,
   'ri:article-line': articleLine,
   'ri:arrow-up-line': arrowUpLine,

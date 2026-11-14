@@ -14,8 +14,10 @@ describe('resolveMagicLink', () => {
     })
     expect(resolveMagicLink('Vue')).toEqual({
       link: 'https://github.com/vuejs/core',
-      imageUrl: '/logos/vue.svg',
+      icon: 'logos:vue',
     })
+    // icon-based entries must point at registered icons
+    expect(Object.keys(iconRegistry)).toContain('logos:vue')
     expect(resolveMagicLink('Iwildeer')).toEqual({
       link: 'https://github.com/iwildeer/iwildeer.me',
       imageUrl: '/avatar.jpg',

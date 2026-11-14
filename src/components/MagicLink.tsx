@@ -1,4 +1,5 @@
 import { AppLink } from '@/components/AppLink'
+import { Icon } from '@/components/Icon'
 import { resolveMagicLink } from '@/content/links'
 
 interface MagicLinkProps {
@@ -7,7 +8,7 @@ interface MagicLinkProps {
 }
 
 export function MagicLink({ name, children }: MagicLinkProps) {
-  const { link, imageUrl } = resolveMagicLink(name)
+  const { link, imageUrl, icon } = resolveMagicLink(name)
 
   return (
     <AppLink to={link} className="markdown-magic-link">
@@ -17,6 +18,7 @@ export function MagicLink({ name, children }: MagicLinkProps) {
           style={{ backgroundImage: `url(${imageUrl})` }}
         />
       )}
+      {icon && <Icon icon={icon} className="markdown-magic-link-icon" />}
       {children}
     </AppLink>
   )

@@ -13,7 +13,7 @@ export const magicLinks: Record<string, MagicLinkMeta | string> = {
   },
   Vue: {
     link: 'https://github.com/vuejs/core',
-    imageUrl: '/logos/vue.svg',
+    icon: 'logos:vue',
   },
   TypeScript: {
     link: 'https://github.com/microsoft/TypeScript',

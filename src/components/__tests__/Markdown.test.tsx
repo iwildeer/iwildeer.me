@@ -47,13 +47,17 @@ describe('Markdown magic links', () => {
     expect(html).toContain('React')
   })
 
-  it('renders the Vue capsule with its logo', () => {
+  it('renders the Vue capsule with its icon slot', () => {
+    // Iconify icons render client-side (SSR emits an empty placeholder span),
+    // so assert the capsule and link; the icon registration itself is covered
+    // in links.test.ts.
     const html = renderToStaticMarkup(
       <MemoryRouter>
         <Markdown>{'[Vue](magic:Vue)'}</Markdown>
       </MemoryRouter>,
     )
-    expect(html).toContain('/logos/vue.svg')
+    expect(html).toContain('markdown-magic-link')
+    expect(html).toContain('https://github.com/vuejs/core')
     expect(html).toContain('Vue')
   })
 

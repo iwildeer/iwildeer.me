@@ -179,6 +179,14 @@ a.item:hover {
   border-radius: 2px;
 }
 
+/* Registered-icon variant of .markdown-magic-link-image (same metrics);
+ * loaded after Tailwind so it overrides the Icon component's default size. */
+.markdown-magic-link-icon {
+  height: 1.1em;
+  width: 1.1em;
+  flex-shrink: 0;
+}
+
 .copyright a {
   color: inherit;
   border-bottom: none;
