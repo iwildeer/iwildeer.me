@@ -105,7 +105,7 @@ Pages and posts are **not** imported manually in `AppRoutes.tsx`. `src/lib/conte
 - Add a blog post: drop a `.md` in `content/posts/` (→ `/posts/<slug>`, slug = filename).
 - `content/pages/404.md` feeds the `NotFoundPage` content and does **not** become a route.
 
-**Frontmatter** (YAML, parsed by `yaml` in `lib/frontmatter.ts`): `title`, `description` (SEO), `date`, `type` (`blog` | `note`), `duration`, `draft`, `layout` (`posts-list` | `projects` | `media` | `photos` | default), `listType`, `social`, `art` (`dots` | `plum` | `both`), `display` (`""` hides the `<h1>`), `projects`. New fields go in `types/content.ts` `PageMeta` **and** `KNOWN_META_KEYS` in `lib/frontmatter.ts` — unknown frontmatter keys log a dev-only warning.
+**Frontmatter** (YAML, parsed by `yaml` in `lib/frontmatter.ts`): `title`, `description` (SEO), `date`, `type` (`blog` | `note`), `duration`, `draft`, `layout` (`posts-list` | `projects` | `media` | `photos` | default), `listType`, `social`, `art` (`dots` | `plum` | `both`), `display` (`""` hides the `<h1>`), `tocAlwaysOn` (post TOC expanded without hover), `projects`. New fields go in `types/content.ts` `PageMeta` **and** `KNOWN_META_KEYS` in `lib/frontmatter.ts` — unknown frontmatter keys log a dev-only warning.
 
 **Media lists:** `layout: media` pages render categories loaded by `lib/mediaGroups.ts` from `src/content/media/*.ts` — each module exports `items: MediaItem[]`; the filename maps to the category (`01-anime.ts` → the `anime` tab, `NN-` prefix stripped and used for ordering). An inline `media:` frontmatter block overrides the globbed groups per key.
 

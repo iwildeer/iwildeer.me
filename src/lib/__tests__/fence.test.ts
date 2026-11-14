@@ -39,4 +39,13 @@ describe('findFencedCode', () => {
   it('leaves inline code alone', () => {
     expect(findFencedCode('see `const x` here')).toEqual([])
   })
+
+  it('matches empty blocks (shiki placeholders) without swallowing text between them', () => {
+    const body = '```shiki:0\n```\n\n## Heading Between\n\n```shiki:1\n```\n\n## After'
+    const blocks = findFencedCode(body)
+    expect(blocks).toEqual([
+      { fullMatch: '```shiki:0\n```', lang: 'shiki:0', code: '' },
+      { fullMatch: '```shiki:1\n```', lang: 'shiki:1', code: '' },
+    ])
+  })
 })

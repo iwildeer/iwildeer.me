@@ -9,6 +9,7 @@ import imageLine from '@iconify-icons/ri/image-line'
 import layoutMasonryLine from '@iconify-icons/ri/layout-masonry-line'
 import lightbulbLine from '@iconify-icons/ri/lightbulb-line'
 import mailLine from '@iconify-icons/ri/mail-line'
+import menu2Fill from '@iconify-icons/ri/menu-2-fill'
 import moonLine from '@iconify-icons/ri/moon-line'
 import sunLine from '@iconify-icons/ri/sun-line'
 import tiktokFill from '@iconify-icons/ri/tiktok-fill'
@@ -25,6 +26,7 @@ export const iconRegistry = {
   'ri:layout-masonry-line': layoutMasonryLine,
   'ri:lightbulb-line': lightbulbLine,
   'ri:mail-line': mailLine,
+  'ri:menu-2-fill': menu2Fill,
   'ri:moon-line': moonLine,
   'ri:sun-line': sunLine,
   'ri:tiktok-fill': tiktokFill,

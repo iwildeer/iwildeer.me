@@ -48,6 +48,7 @@ export interface PageMeta {
   media?: Record<string, MediaItem[]>
   photos?: PhotoItem[]
   display?: string
+  tocAlwaysOn?: boolean
 }
 
 export interface PageEntry {

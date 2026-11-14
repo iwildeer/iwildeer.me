@@ -21,6 +21,20 @@ describe('Markdown highlight integration', () => {
   })
 })
 
+describe('Markdown heading anchors', () => {
+  it('slugs heading ids (CJK kept) and appends a header anchor', () => {
+    const html = renderToStaticMarkup(<Markdown>{'## 快速开始 Quick Start'}</Markdown>)
+    expect(html).toContain('<h2 id="快速开始-quick-start">')
+    expect(html).toContain('class="header-anchor"')
+    expect(html).toContain('href="#快速开始-quick-start"')
+  })
+
+  it('slugs code spans inside headings like plain text', () => {
+    const html = renderToStaticMarkup(<Markdown>{'## 使用 `pnpm dev`'}</Markdown>)
+    expect(html).toContain('<h2 id="使用-pnpm-dev">')
+  })
+})
+
 describe('Markdown magic links', () => {
   it('keeps the magic: protocol and renders a capsule', () => {
     const html = renderToStaticMarkup(

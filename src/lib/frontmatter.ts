@@ -27,6 +27,7 @@ const KNOWN_META_KEYS = {
   media: true,
   photos: true,
   display: true,
+  tocAlwaysOn: true,
 } satisfies Record<keyof PageMeta, true>
 
 // vite/client types import.meta.env in both tsconfigs (tsconfig.node.json
