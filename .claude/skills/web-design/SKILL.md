@@ -42,8 +42,10 @@ The palette is grayscale only. Two rules:
 
 ## Typography
 
-- Sans: **Inter Variable** → *LXGW WenKai Screen* (CJK) → PingFang SC… (stack
-  in `@theme`/`--font-sans`). Mono: **DM Mono** (`--font-mono`).
+- Sans: **Inter** (only weight 400 is loaded — bolder weights synthesize in
+  the browser, matching antfu.me exactly) → *LXGW WenKai Screen* (CJK) →
+  PingFang SC… (stack in `@theme`/`--font-sans`). Mono: **DM Mono**
+  (`--font-mono`).
 - Body: `1rem / 1.75`. Muted/meta text shrinks (`0.875em`–`0.95em`) **and**
   drops opacity (0.4–0.6) rather than changing color.
 - Display numerals (post-list years, project group titles): huge (8em /

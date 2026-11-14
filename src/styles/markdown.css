@@ -147,7 +147,7 @@ a.item:hover {
   transition: background-color 0.2s ease, color 0.2s ease;
   border-radius: 0.25rem;
   padding: 0.25rem 0.375rem;
-  font-family: 'Inter Variable', Inter, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.875rem;
 }
 
@@ -156,7 +156,7 @@ a.item:hover {
   align-items: center;
   transform: translateY(3px);
   margin-inline: 0.4em 0.22em;
-  font-family: 'Inter Variable', Inter, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.875rem;
   line-height: 100%;
   color: var(--fg-light);

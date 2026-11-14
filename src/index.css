@@ -1,4 +1,4 @@
-@import '@fontsource-variable/inter';
+@import '@fontsource/inter/400.css';
 @import '@fontsource/dm-mono/400.css';
 @import 'lxgw-wenkai-screen-webfont/lxgwwenkaiscreen.css';
 @import 'tailwindcss';
@@ -8,7 +8,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: 'Inter Variable', Inter, 'LXGW WenKai Screen', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-sans: 'Inter', 'LXGW WenKai Screen', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   --font-mono: 'DM Mono', 'Input Mono', 'Fira Code', monospace;
 }
 
@@ -20,7 +20,7 @@
   --fg: #555;
   --fg-deep: #222;
   --fg-deeper: #000;
-  --font-sans: 'Inter Variable', Inter, 'LXGW WenKai Screen', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-sans: 'Inter', 'LXGW WenKai Screen', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
   --font-mono: 'DM Mono', 'Input Mono', 'Fira Code', monospace;
   color-scheme: light dark;
 }
