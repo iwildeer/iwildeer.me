@@ -4,7 +4,6 @@ description: SaaS 多门店 POS 的实时推送治理复盘：3 条 WebSocket �
 date: '2026-11-17'
 type: blog
 duration: '30 min'
-draft: true
 ---
 
 > 技术栈：Vue 2 + @stomp/stompjs@6 + RabbitMQ（STOMP 插件）+ SaaS 多门店 POS \
